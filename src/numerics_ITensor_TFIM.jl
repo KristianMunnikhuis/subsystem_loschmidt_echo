@@ -8,6 +8,12 @@ using Plots
 ITensors.op(::OpName"Xproj",::SiteType"S=1/2") = 
     [1/2 1/2
      1/2 1/2]
+
+#|z><z| projector
+ITensors.op(::OpName"Zproj",::SiteType"S=1/2") = 
+    [1 0
+     0 0]
+
 ##Constants
 
 ######Functions######
