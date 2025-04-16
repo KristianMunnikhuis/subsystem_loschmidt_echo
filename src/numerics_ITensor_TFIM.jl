@@ -1,6 +1,4 @@
-"""
-Functions for using ITensor to calculate the TFIM.
-"""
+#@doc #"""Functions for using ITensor to calculate the TFIM. """
 using ITensors, ITensorMPS
 using Plots
 #ITensors.compile()

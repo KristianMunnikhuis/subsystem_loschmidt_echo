@@ -175,7 +175,7 @@ end
     
     function sigma_general(indices,t)
         #All odd operators are zero if h1>1
-        if h1>1 && isodd(length(indices))
+        if isodd(length(indices))
             return 0
         end
 
@@ -223,7 +223,7 @@ end
         for i in 1:2:length(indices)
             #print(i)
             for a in indices[i]+1:indices[i+1]-1
-                print("a = $a")
+                #print("a = $a")
                 pf *= (im)
                 push!(string_list, (a,"B"))
                 push!(string_list, (a,"A"))
