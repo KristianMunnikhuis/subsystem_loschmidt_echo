@@ -1,23 +1,33 @@
-@doc """Comparison of analytical calculations of TFIM quantities
-to DMRG results
-"""
+@doc """Comparison of analytical calculations of TFIM quantities to DMRG results"""
 ###Data Reading and Writing
 base_folder = dirname(@__DIR__)
 #Analytical Functions
 include( joinpath(@__DIR__,"..","..","..","src/analytical_TFIM.jl"))
 
+import Pkg
 
+Pkg.add("ITensors")
+Pkg.add("ITensorMPS")
+Pkg.add("SkewLinearAlgebra")
+Pkg.add("LinearAlgebra")
+Pkg.add("Combinatorics")
+Pkg.add("DelimitedFiles")
 
 
 #t = [i for i in 0:0.05:T_final];
 
-L= 14
+L= 20
 k = [2*pi*(n+1/2)/L for n in 0:L-1];
 
 J = 1
 h1 = 0
-h2 = 0
+h2 = 2
 h_i = [i for i in 0:.1:2]
+times = [ti for ti in 0:.02:5]
+###
+plot(times,real.([P_n(5,ti) for ti in times]), dpi=600)
+###
+
 mut_1 = []
 mut_2 = []
 mut_3 = []
@@ -45,19 +55,19 @@ for hi in h_i[1:end]
     P_7 = P_n(7,0.0)
     push!(mut_1,log(P_2/P_1^2))
     push!(mut_2,log(P_4/P_2^2))
-    push!(mut_3,log(P_6/P_3^2))
-    push!(mut_4,log(P_n(8,0.0)/P_4^2))
-    push!(mut_5,log(P_n(10,0.0)/P_5^2))
-    push!(mut_6,log(P_n(12,0.0)/P_6^2))
-    push!(mut_7,log(P_n(14,0.0)/P_7^2))
+    # push!(mut_3,log(P_6/P_3^2))
+    # push!(mut_4,log(P_n(8,0.0)/P_4^2))
+    # push!(mut_5,log(P_n(10,0.0)/P_5^2))
+    #push!(mut_6,log(P_n(12,0.0)/P_6^2))
+   # push!(mut_7,log(P_n(14,0.0)/P_7^2))
 
     push!(sub_1,P_1)
     push!(sub_2,P_2)
     push!(sub_3,P_3)
     push!(sub_4,P_4)
-    push!(sub_5,P_5)
-    push!(sub_6,P_6)
-    push!(sub_7,P_7)
+    # push!(sub_5,P_5)
+    # push!(sub_6,P_6)
+    # push!(sub_7,P_7)
 end
 
 
@@ -71,6 +81,10 @@ plot!(h_i,abs.(mut_5))
 plot!(h_i,abs.(mut_6))
 plot!(h_i,abs.(mut_7))
 
+plot(h_i,sub_1,dpi=300)
+plot!(h_i,real.(sub_2))
+plot!(h_i,real.(sub_3))
+plot!(h_i,real.(sub_4))
 
 ##################DMRG
 #DMRG Functions

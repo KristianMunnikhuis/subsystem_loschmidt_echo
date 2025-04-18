@@ -249,6 +249,8 @@ end
         pairs = collect(combinations(indices, 2))
         return pairs
     end
+
+
     
     function unique_elements_and_frequencies(vec)
         #Computes how many sets are actually unique and their degeneracy
@@ -277,6 +279,7 @@ end
          end
         return P/2^n
     end
+
     
     function PP_corr(n,l,t)
         # <sigma_i sigma_i+1 ... sigma_i+l sigma_i+1+l
@@ -305,4 +308,5 @@ function read_parameters(filename)
         end
         return params
 end
+
 
