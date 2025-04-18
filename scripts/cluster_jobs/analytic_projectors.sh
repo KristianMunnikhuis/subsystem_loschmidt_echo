@@ -5,7 +5,7 @@
 #$ -N Mutual_info_Analytic
 #$ -j y
 
-L_values=(8 10 12 14)  # List of L values
+L_values=(8 10 12 14 16)  # List of L values
 
 echo "================"
 echo "Start date: $(date)"
