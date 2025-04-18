@@ -4,7 +4,7 @@
 ###Data Reading and Writing
 base_folder = dirname(@__DIR__)
 #Analytical Functions
-include( joinpath(@__DIR__,"..","..","..","src/analytical_TFIM.jl"))
+include( joinpath(@__DIR__,"../../../src/analytical_TFIM.jl"))
 
 function nthermal(k,h)
     ϵ= 2*Epsilon_h(k,h)
@@ -50,7 +50,7 @@ function ca(l,t)
         n = nthermal(ki,h1)
         phase = exp(im*l*ki)
         term_1= cos(θ/2)^2*n
-        term_2= sin(θ/2)^2*(1-n)
+        term_2= sin(ϕ/2)^2*(1-n)
         sum += (term_1+term_2)*phase
     end
     return sum/L
@@ -62,26 +62,17 @@ function ac(l,t)
         θ = Theta(ki,h1)
         ϕ = Theta(-ki,h1)
         n = nthermal(ki,h1)
-        phase = exp(-im*l*ki)
+        phase = exp(im*l*ki)
         term_1= cos(θ/2)^2*(1-n)
-        term_2= sin(θ/2)^2*(n)
+        term_2= sin(ϕ/2)^2*(n)
         sum += (term_1+term_2)*phase
     end
     return sum/L
 end 
 
-h1 = 0.8
-b = [bi for bi in 0:.1:3]
-dat = []
-for bi in b
-    β=bi
 
-    push!(dat,P_n(6,0))
-end
-
-plot(b,real.(dat))
 #Subsystem Length
-L= 10
+L= 8
 
 #Momentum
 k = [2*pi*(n+1/2)/L for n in 0:L-1];
@@ -89,5 +80,18 @@ k = [2*pi*(n+1/2)/L for n in 0:L-1];
 J = 1
 h1 = 0
 h2 = 0
+β= 0
 #h_i range
+P_n(2,0)
+h1 = 0.
+b = [bi for bi in 0:.1:3]
+dat = []
+for bi in b
+    global β=bi
+
+    push!(dat,P_n(2,0))
+end
+
+plot(b,real.(dat))
+
 h_i = [i for i in 0:.01:5]

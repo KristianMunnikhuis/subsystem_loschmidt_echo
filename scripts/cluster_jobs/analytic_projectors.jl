@@ -35,7 +35,7 @@ for P in Projectors
     println(P)
     push!(x,(P))
 end
-L = 4
+
 path = joinpath(@__DIR__, "..","..","results", "partial_projectors", "L=$(L)_TFIM_projectors.txt") |> normpath
 mkpath(dirname(path))
 
