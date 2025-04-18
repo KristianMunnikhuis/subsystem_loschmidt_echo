@@ -4,7 +4,7 @@
 ###Data Reading and Writing
 base_folder = dirname(@__DIR__)
 #Analytical Functions
-include( joinpath(@__DIR__,"..","..","..","src/analytical_TFIM.jl"))
+include( joinpath(@__DIR__,"..","..","src/analytical_TFIM.jl"))
 
 #Subsystem Length
 L = parse(Int, ARGS[1])
