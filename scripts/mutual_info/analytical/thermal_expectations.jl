@@ -7,7 +7,7 @@ base_folder = dirname(@__DIR__)
 include( joinpath(@__DIR__,"../../../src/analytical_TFIM.jl"))
 
 function nthermal(k,h)
-    ϵ= 2*Epsilon_h(k,h)
+    ϵ= Epsilon_h(k,h)
     return 1/(1+exp(β*ϵ))
 end
 #Define Thermal expectations
@@ -71,7 +71,7 @@ function ac(l,t)
 end 
 
 #Subsystem Length
-L= 16
+L= 8
 
 #Momentum
 k = [2*pi*(n+1/2)/L for n in 0:L-1];
@@ -80,9 +80,8 @@ J = 1
 h1 = 0
 h2 = 0
 #h_i range
-P_n(2,0)
 h_i = [i for i in 0:.01:5]
-b = exp10.(range(-2,log10(3),10))
+b = exp10.(range(-2,log10(3),15))
 
 
 data = []
@@ -96,6 +95,7 @@ for bi in b
     end
     push!(data,dat)
 end
+data
 plot(xlabel="h")
 
 for i in 1:2:length(b) #There is some type of slight numeric error where this is equivalent to 
@@ -105,3 +105,16 @@ for i in 1:2:length(b) #There is some type of slight numeric error where this is
 end
 plot!(ylabel="<P>th")
 plot!(xlim=(h_i[1],h_i[end]))
+x=vcat(h_i,data)
+
+x = [b,h_i]
+for d in data
+    push!(x,real.(d))
+end
+x
+path = joinpath(@__DIR__, "..", "..","..", "results", "thermal_averages", "L=$(L)_TFIM_thermal_average.txt") |> normpath
+mkpath(dirname(path))
+
+open(path, "w") do io
+    writedlm(io, x)
+end
