@@ -18,7 +18,7 @@ function aa(l,t)
         θ = Theta(ki,h1)
         ϕ = Theta(-ki,h1)
         n = nthermal(ki,h1)
-        phase = exp(im*l*ki)
+        phase = exp(-im*l*ki)
         term_1= im*cos(θ/2)*sin(ϕ/2)*(1-n)
         term_2= im*sin(θ/2)*cos(ϕ/2)*n
         sum += (term_1+term_2)*phase
@@ -62,7 +62,7 @@ function ac(l,t)
         θ = Theta(ki,h1)
         ϕ = Theta(-ki,h1)
         n = nthermal(ki,h1)
-        phase = exp(im*l*ki)
+        phase = exp(-im*l*ki)
         term_1= cos(θ/2)^2*(1-n)
         term_2= sin(ϕ/2)^2*(n)
         sum += (term_1+term_2)*phase
@@ -70,9 +70,8 @@ function ac(l,t)
     return sum/L
 end 
 
-
 #Subsystem Length
-L= 8
+L= 16
 
 #Momentum
 k = [2*pi*(n+1/2)/L for n in 0:L-1];
@@ -80,18 +79,29 @@ k = [2*pi*(n+1/2)/L for n in 0:L-1];
 J = 1
 h1 = 0
 h2 = 0
-β= 0
 #h_i range
 P_n(2,0)
-h1 = 0.
-b = [bi for bi in 0:.1:3]
-dat = []
+h_i = [i for i in 0:.01:5]
+b = exp10.(range(-2,log10(3),10))
+
+
+data = []
 for bi in b
     global β=bi
+    dat = []
+    for hi in h_i
+        global h1 = hi
 
-    push!(dat,P_n(2,0))
+        push!(dat,P_n(2,0))
+    end
+    push!(data,dat)
 end
+plot(xlabel="h")
 
-plot(b,real.(dat))
-
-h_i = [i for i in 0:.01:5]
+for i in 1:2:length(b) #There is some type of slight numeric error where this is equivalent to 
+    #the python code 
+   println(i)
+   plot!(h_i,real.(data[i]),label = "β = $(b[i])")
+end
+plot!(ylabel="<P>th")
+plot!(xlim=(h_i[1],h_i[end]))
