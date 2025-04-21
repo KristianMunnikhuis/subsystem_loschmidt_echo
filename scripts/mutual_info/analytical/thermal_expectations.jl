@@ -70,8 +70,9 @@ function ac(l,t)
     return sum/L
 end 
 
+#System Length
+L= 10
 #Subsystem Length
-L= 8
 
 #Momentum
 k = [2*pi*(n+1/2)/L for n in 0:L-1];
@@ -83,38 +84,59 @@ h2 = 0
 h_i = [i for i in 0:.01:5]
 b = exp10.(range(-2,log10(3),15))
 
+n = [ni for ni in 1:6]
+data_n = []
+for ni in n
+    data = []
+    for bi in b
+        global β=bi
+        dat = []
+        for hi in h_i
+            global h1 = hi
 
-data = []
-for bi in b
-    global β=bi
-    dat = []
-    for hi in h_i
-        global h1 = hi
-
-        push!(dat,P_n(2,0))
+            push!(dat,P_n(ni,0))
+        end
+        push!(data,dat)
     end
-    push!(data,dat)
+    push!(data_n,data)
 end
-data
-plot(xlabel="h")
 
-for i in 1:2:length(b) #There is some type of slight numeric error where this is equivalent to 
-    #the python code 
-   println(i)
-   plot!(h_i,real.(data[i]),label = "β = $(b[i])")
+for d in data_n[1]
+    println(d)
 end
-plot!(ylabel="<P>th")
-plot!(xlim=(h_i[1],h_i[end]))
-x=vcat(h_i,data)
 
+
+
+# plot(xlabel="h")
+
+# for i in 1:2:length(b) #There is some type of slight numeric error where this is equivalent to 
+#     #the python code 
+#    println(i)
+#    plot!(h_i,real.(data[i]),label = "β = $(b[i])")
+# end
+# plot!(ylabel="<P>th")
+# plot!(xlim=(h_i[1],h_i[end]))
 x = [b,h_i]
-for d in data
-    push!(x,real.(d))
-end
-x
-path = joinpath(@__DIR__, "..", "..","..", "results", "thermal_averages", "L=$(L)_TFIM_thermal_average.txt") |> normpath
-mkpath(dirname(path))
+x_n = []
 
-open(path, "w") do io
-    writedlm(io, x)
+for data in data_n
+    x_ni = copy(x)
+    for d in data
+        push!(x_ni,real.(d))
+    end
+    #print(x_ni)
+    push!(x_n,x_ni)
+end
+
+#x_n[2]-x_n[1]
+#data_n[1][1]
+#data_n[2][1]
+
+for ni in n
+    path = joinpath(@__DIR__, "..", "..","..", "results", "thermal_averages", "L=$(L)_n=$(ni)_TFIM_thermal_average.txt") |> normpath
+    mkpath(dirname(path))
+
+    open(path, "w") do io
+        writedlm(io, x_n[ni])
+    end
 end

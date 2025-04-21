@@ -40,7 +40,7 @@ end
 
 ##Constants
 #Lattice Size
-L =10
+L =100
 J = 1;
 J2 = 0;
 #DMRG Parameters
