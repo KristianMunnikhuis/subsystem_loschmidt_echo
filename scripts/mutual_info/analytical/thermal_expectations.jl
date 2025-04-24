@@ -71,7 +71,7 @@ function ac(l,t)
 end 
 
 #System Length
-L= 10
+L= 8
 #Subsystem Length
 
 #Momentum
