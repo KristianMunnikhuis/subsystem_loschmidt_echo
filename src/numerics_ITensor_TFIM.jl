@@ -22,7 +22,7 @@ function PBC(i)
     return mod(i-1,L)+1
 end
 function Integrable_TFIM(J,h)
-    #Open Boundary Conditions
+    #Periodic Boundary Conditions
     os = OpSum()
     for j=1:L-1
         #sigma_x_j * sigma_x_j+1 
