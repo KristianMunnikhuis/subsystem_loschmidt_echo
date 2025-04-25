@@ -40,7 +40,7 @@ end
 
 ##Constants
 #Lattice Size
-L =100
+L =50
 J = 1;
 J2 = 0;
 #DMRG Parameters
@@ -65,10 +65,11 @@ t = [ti for ti in 0:tau:2]
  h= 0
  #Hamiltonians 
  #H = Integrable_TFIM(J,h,L,sites);
-H = Unintegrable_TFIM(J,J2,h,L,sites)
+H = Integrable_TFIM(J,1/2)
 psi0 = random_mps(sites; linkdims=2);
 energy,psi = dmrg(H,psi0;nsweeps,maxdim);
 
+plot(correlation_matrix(psi,"X","X")[:,1])
 #psi = apply(fullZi,psi)
 #psi /= sqrt(inner(psi',psi))
 x =psi
