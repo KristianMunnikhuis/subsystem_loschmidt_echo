@@ -107,14 +107,21 @@ def correlation_function(op_string_1, op_string_2, G):
     elif op1 == "B" and op2 == "A":
         return BA(G)[i,j]
     
-
-
-def sigma_general(indices,G):
+    ###GENERAL SIGMA X X 
+def remove_duplicates_in_pairs(vec):
+    unique_vals, counts = np.unique(vec, return_counts=True)
+    filtered_vals = unique_vals[counts % 2 != 0]
+    return filtered_vals.tolist()
+def sigma_general(indices,Gi,L):
     """
+    This way is on the order of 99% faster than using a pfaffian method. 
+    With Pfaffians the matrix grows very quickly.
+    Has been checked against pfaffian with over 500 strings of lengths up to 25 and error was on average 1e-16
+
     Calculates the expectation values of sigma_x operators put at arbitary sites"
     Inputs:
     indices = list of integers
-    G = 2L x2L correlation matrix corresponding to quantum state of interest
+    Gi = 2L x2L correlation matrix corresponding to quantum state of interest
 
     Outputs:
     complex scalar 
@@ -124,49 +131,109 @@ def sigma_general(indices,G):
     indices = [1, 2, 3, 4, 5] 
     sigma_5pt = sigma_general(indices,G)
     """
-    #Commutation lets us sort indices
+    #Correlation Matrices
+    F = Gi[:L,L:]
+    G = Gi[:L,:L]
+    #M[x,y] = <BxAy>
+    M = np.eye(L)- 2*(G+F)
+    #Sigma matrices on different sites commute
     indices = np.sort(indices)
-    #If odd, return 0 (Even projection)
+    #Remove any duplicates as sigma_x^2 = 1
+    indices = remove_duplicates_in_pairs(indices)
     if len(indices)%2 == 1:
         constant = 10
         indices = list(indices) + [x + constant for x in indices]
-        return np.sqrt(np.abs(sigma_general(indices,G)))
+        return np.sqrt(np.abs(sigma_general(indices,Gi,L)))
     
-    #Helper function to remove duplicates in the list
-    # <Sigma^2> = 1 for all indices and sigmas
-    def remove_duplicates_in_pairs(vec):
-        unique_vals, counts = np.unique(vec, return_counts=True)
-        filtered_vals = unique_vals[counts % 2 != 0]
-        return filtered_vals.tolist()
-    #Remove duplicate indices
-    indices = remove_duplicates_in_pairs(indices)
-    #<sigma^2> = 1
-    if len(indices)==0:
-        return 1
+    #Bs sit on odd sites
+    odd_sites = np.array(indices[::2])
+    #As site on even sites
+    even_sites= np.array(indices[1::2])
+    #Get string lengths
+    JW_string_lengths = even_sites-odd_sites\
+    #Sum of string lengths is size of matrix needed
+    N = sum(JW_string_lengths)
+    #Fill in indices for strings
+    R = []
+    for i in range(0, len(indices), 2):
+        start = indices[i]
+        end = indices[i+1]
+        R.extend(range(start, end+1))
+
+    A_coords = [x for x in R if x not in odd_sites]
+    B_coords = [x for x in R if x not in even_sites]
+
+    ###Building C
+    C = np.zeros( (N,N))
+    for nx in range(N):
+        for ny in range(N):
+            Bx = B_coords[nx]
+            Ay = A_coords[ny]
+
+            C[nx,ny] = M[Bx,Ay]
+
+    return la.det(C)
+
+##Depreciated Method##
+
+# def sigma_general(indices,G):
+#     """
+#     Calculates the expectation values of sigma_x operators put at arbitary sites"
+#     Inputs:
+#     indices = list of integers
+#     G = 2L x2L correlation matrix corresponding to quantum state of interest
+
+#     Outputs:
+#     complex scalar 
+
+#     Example:
+
+#     indices = [1, 2, 3, 4, 5] 
+#     sigma_5pt = sigma_general(indices,G)
+#     """
+#     #Commutation lets us sort indices
+#     indices = np.sort(indices)
+#     #If odd, return 0 (Even projection)
+#     if len(indices)%2 == 1:
+#         constant = 10
+#         indices = list(indices) + [x + constant for x in indices]
+#         return np.sqrt(np.abs(sigma_general(indices,G)))
     
-    #Prepare operator string list
-    string_list = []
-    #Loop over each index
-    for i in range(len(indices)):
-        #All operators are of the form B-A
-        if i%2==0:
-            #B
-            string_list.append([indices[i],"B"])
-        else:
-            #A
-            string_list.append([indices[i],"A"])
+#     #Helper function to remove duplicates in the list
+#     # <Sigma^2> = 1 for all indices and sigmas
+#     def remove_duplicates_in_pairs(vec):
+#         unique_vals, counts = np.unique(vec, return_counts=True)
+#         filtered_vals = unique_vals[counts % 2 != 0]
+#         return filtered_vals.tolist()
+#     #Remove duplicate indices
+#     indices = remove_duplicates_in_pairs(indices)
+#     #<sigma^2> = 1
+#     if len(indices)==0:
+#         return 1
     
-    for i in range(0,len(indices),2):
-        #Fill in JW-Strings, these commute and therefore can be added in at the end
-        for a in range(indices[i]+1,indices[i+1]):
-            #Adds "A B " terms
-            string_list.append([a,"A"])
-            string_list.append([a,"B"])
+#     #Prepare operator string list
+#     string_list = []
+#     #Loop over each index
+#     for i in range(len(indices)):
+#         #All operators are of the form B-A
+#         if i%2==0:
+#             #B
+#             string_list.append([indices[i],"B"])
+#         else:
+#             #A
+#             string_list.append([indices[i],"A"])
     
-    M = construct_M_matrix(string_list, correlation_function, G)
+#     for i in range(0,len(indices),2):
+#         #Fill in JW-Strings, these commute and therefore can be added in at the end
+#         for a in range(indices[i]+1,indices[i+1]):
+#             #Adds "A B " terms
+#             string_list.append([a,"A"])
+#             string_list.append([a,"B"])
+    
+#     M = construct_M_matrix(string_list, correlation_function, G)
 
 
-    return np.sqrt(la.det(M))
+#     return np.sqrt(la.det(M))
 
 
 #Projectors
@@ -186,15 +253,24 @@ def all_combinations(indices):
         x.extend(combinations(indices, r))
     return list(x)
 
+def unique_elements_and_frequencies(vec):
+    unique_vals, freqs = np.unique(vec, return_counts=True)
+    return unique_vals, freqs
 
-def P_n(n,G):
+def P_n(n,G,L):
+    """
+    P_n scales directly with the number of terms since even small odd sigma correlations need larger support to calcualte.
+    Taking out odd terms works to make easier, but scaling is still 2^n.
+    Minor improvements can still be had though.
+    """
     #For most cases we use periodic boundary conditions
     #That said, watch out for this definition of indices
     indices = [i for i in range(0,n)]
     terms = all_combinations(indices)
     dat = []
+
     for term in terms:
-        dat.append(sigma_general(term,G))
+        dat.append(sigma_general(term,G,L))
     #All terms have equal weight. 
     return np.mean(dat)
 
