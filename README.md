@@ -31,7 +31,7 @@ Helpful Resources:
 
 The quantum Ising chain for beginners:
 -Incredible (but dense) covering of TFIM methods. Opened my eyes. Specifically, we are able to use ED with very large system sizes for integrable chains through methods used in this report.
-https://arxiv.org /abs/2009.09208
+https://arxiv.org/abs/2009.09208
 Introduction to the TFIM:
 -Contains analytic calculations of post-quench parameters and notation used in analytical calculations 
 https://www.pks.mpg.de/fileadmin/user_upload/MPIPKS/group_pages/DQI/Introduction_TFIM.pdf

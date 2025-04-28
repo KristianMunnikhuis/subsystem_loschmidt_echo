@@ -128,7 +128,9 @@ def sigma_general(indices,G):
     indices = np.sort(indices)
     #If odd, return 0 (Even projection)
     if len(indices)%2 == 1:
-        return 0
+        constant = 10
+        indices = list(indices) + [x + constant for x in indices]
+        return np.sqrt(np.abs(sigma_general(indices,G)))
     
     #Helper function to remove duplicates in the list
     # <Sigma^2> = 1 for all indices and sigmas
@@ -252,5 +254,5 @@ def TFIM_time_evolve(N_steps,tau, h0,hf, J, L, U0= None, bc = "ABC"):
     
     
     U_t = np.array([sol.y[:, i].reshape(2*L, 2*L) for i in range(len(sol.t))])
-    print(sol.message)
+    #print(sol.message)
     return U_t
