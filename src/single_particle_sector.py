@@ -141,7 +141,7 @@ def sigma_general(indices,Gi,L):
     #Remove any duplicates as sigma_x^2 = 1
     indices = remove_duplicates_in_pairs(indices)
     if len(indices)%2 == 1:
-        constant = 10
+        constant = L//2
         indices = list(indices) + [x + constant for x in indices]
         return np.sqrt(np.abs(sigma_general(indices,Gi,L)))
     
@@ -256,7 +256,7 @@ def all_combinations(indices):
 def unique_elements_and_frequencies(vec):
     unique_vals, freqs = np.unique(vec, return_counts=True)
     return unique_vals, freqs
-
+from collections import Counter
 def P_n(n,G,L):
     """
     P_n scales directly with the number of terms since even small odd sigma correlations need larger support to calcualte.
@@ -269,10 +269,26 @@ def P_n(n,G,L):
     terms = all_combinations(indices)
     dat = []
 
-    for term in terms:
-        dat.append(sigma_general(term,G,L))
+    ###
+    x_c = []
+    for a in terms[1:]:
+      
+        a = np.array(a)
+        x_c.append(tuple(a - a[0]))  # convert to tuple for hashing
+    counter = Counter(x_c)
+
+    # Extract vecs and counts as separate arrays/lists
+    vecs = list(counter.keys())
+    counts = np.array(list(counter.values()))
+
+    ##
+
+    for term in range(len(vecs)):
+        dat.append(sigma_general(vecs[term],G,L)*counts[term])
+    dat.append(sigma_general([],G,L))
+
     #All terms have equal weight. 
-    return np.mean(dat)
+    return np.sum(dat)/2**n
 
 
 #### MODEL
