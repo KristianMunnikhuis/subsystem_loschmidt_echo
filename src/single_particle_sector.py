@@ -7,6 +7,11 @@ from itertools import combinations
 
 def G_tfim(psi):
     """
+    ONLY CALCUALTES FOR GROUND STATE CORRELATIONS
+
+    HONESTLY SHOULD BE DEPRECIATED
+
+    ##
     Gives Correlations matrix, in which LxL matrices G and F live.
 
     Input
@@ -142,9 +147,9 @@ def sigma_general(indices,Gi,L):
     indices = remove_duplicates_in_pairs(indices)
     if len(indices)%2 == 1:
         return 0
-   #     constant = L//2
+    #    constant = L//2
     #    indices = list(indices) + [x + constant for x in indices]
-     #   return np.sqrt(np.abs(sigma_general(indices,Gi,L)))
+    #    return np.sqrt(np.abs(sigma_general(indices,Gi,L)))
     
     #Bs sit on odd sites
     odd_sites = np.array(indices[::2])
