@@ -1,0 +1,9 @@
+#IDE Stuff
+.vscode/
+.ipynb_checkpoints/
+
+#Cluster Data files
+*.o[0-9]*
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
