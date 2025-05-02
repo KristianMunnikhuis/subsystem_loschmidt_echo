@@ -71,7 +71,7 @@ function ac(l,t)
 end 
 
 #System Length
-L= 8
+L= 100
 #Subsystem Length
 
 #Momentum
@@ -81,11 +81,18 @@ J = 1
 h1 = 0
 h2 = 0
 #h_i range
-h_i = [i for i in 0:.01:5]
-b = exp10.(range(-2,log10(3),15))
+h_i = range(0, stop=2, length=50)
 
-n = [ni for ni in 1:6]
+b = range(0, stop=5, length=10)
+
+
+n = [ni for ni in 1:3]
 data_n = []
+
+global β=10
+BA(0,1,0)
+AB(0,1,0)
+
 for ni in n
     data = []
     for bi in b
@@ -101,13 +108,13 @@ for ni in n
     push!(data_n,data)
 end
 
-for d in data_n[1]
-    println(d)
-end
 
-
-
-# plot(xlabel="h")
+bi = 3
+plot(h_i,abs.(data_n[1][bi]))
+plot!(h_i,abs.(data_n[2][bi]))
+plot!(h_i,abs.(data_n[3][bi]))
+plot!(title="$(b[bi])")
+plot!(ylim=(0,1))
 
 # for i in 1:2:length(b) #There is some type of slight numeric error where this is equivalent to 
 #     #the python code 
@@ -116,13 +123,13 @@ end
 # end
 # plot!(ylabel="<P>th")
 # plot!(xlim=(h_i[1],h_i[end]))
-x = [b,h_i]
+x = [collect(b),collect(h_i)]
 x_n = []
 
 for data in data_n
     x_ni = copy(x)
     for d in data
-        push!(x_ni,real.(d))
+        push!(x_ni,abs.(d))
     end
     #print(x_ni)
     push!(x_n,x_ni)
