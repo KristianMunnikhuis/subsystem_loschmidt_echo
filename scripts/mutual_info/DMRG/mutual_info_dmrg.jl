@@ -184,7 +184,7 @@ plot(log.(real.(data1[i])),dpi=300)
 plot!(log.(real.(data2[i])))
 plot!(log.(real.(data3[i])))
 
-op('Xproj',sites[1])
+#op('Xproj',sites[1])
 
 ########ADIABATIC
 
