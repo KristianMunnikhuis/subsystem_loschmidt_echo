@@ -145,11 +145,16 @@ def sigma_general(indices,Gi,L):
     indices = np.sort(indices)
     #Remove any duplicates as sigma_x^2 = 1
     indices = remove_duplicates_in_pairs(indices)
+
+    #even = True
+    even = False
     if len(indices)%2 == 1:
-      return 0
-    #    constant = L//2
-    #    indices = list(indices) + [x + constant for x in indices]
-    #    return np.sqrt(np.abs(sigma_general(indices,Gi,L)))
+      if even ==True:
+        return 0
+      else:
+        constant = L//2
+        indices = list(indices) + [x + constant for x in indices]
+        return np.sqrt(np.abs(sigma_general(indices,Gi,L)))
     
     #Bs sit on odd sites
     odd_sites = np.array(indices[::2])
@@ -343,7 +348,7 @@ def TFIM_time_evolve(N_steps,tau, h0,hf, J, L, U0= None, bc = "ABC"):
         H0 = H_bdg(h0,L,J,boundary_condition= bc)
         _,U0 = la.eigh(H0)
     #ABSOLUTELY NECESSARY STEP
-    print(type(U0))
+   # print(type(U0))
     U0 = U0.astype(np.complex128) 
     #solver stuff 
     args = (h_t,tau,h0,hf,J,bc)

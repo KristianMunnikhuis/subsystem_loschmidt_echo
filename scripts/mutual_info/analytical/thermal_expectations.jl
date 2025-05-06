@@ -71,22 +71,56 @@ function ac(l,t)
 end 
 
 #System Length
-L= 100
-#Subsystem Length
+L= 10
+h2 = 0
 
 #Momentum
 k = [2*pi*(n+1/2)/L for n in 0:L-1];
 ##Parameters
 J = 1
-h1 = 0
-h2 = 0
+h1 = 5
+global β=1
+ca(1,0)
+
+sum([Epsilon_h(ki,h1) for ki in k])/L
+
+
+dat1 = []
+dat2 = []
+b = range(0, stop=5, length=50)
+for bi in b
+    global β = bi
+    push!(dat1,real(ca(0,0)))
+    push!(dat2,real(ac(0,0)))
+end
+
+plot(dat1)
+plot(dat2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+println(dat)
+plot([i for i in 0:0.1:5],dat,xlim=(0,5),ylim=(0,.5))
+
 #h_i range
 h_i = range(0, stop=2, length=50)
 
-b = range(0, stop=5, length=10)
+b = [1/2]#range(0, stop=5, length=10)
 
 
-n = [ni for ni in 1:3]
+n = [ni for ni in 1:6]
 data_n = []
 
 global β=10
@@ -109,12 +143,16 @@ for ni in n
 end
 
 
-bi = 3
+bi = 1
 plot(h_i,abs.(data_n[1][bi]))
 plot!(h_i,abs.(data_n[2][bi]))
 plot!(h_i,abs.(data_n[3][bi]))
+plot!(h_i,abs.(data_n[4][bi]))
+plot!(h_i,abs.(data_n[5][bi]))
+plot!(h_i,abs.(data_n[6][bi]))
+
 plot!(title="$(b[bi])")
-plot!(ylim=(0,1))
+plot!(ylim=(0,.5))
 
 # for i in 1:2:length(b) #There is some type of slight numeric error where this is equivalent to 
 #     #the python code 

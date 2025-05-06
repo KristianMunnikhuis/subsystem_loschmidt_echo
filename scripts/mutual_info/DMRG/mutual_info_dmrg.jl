@@ -12,32 +12,6 @@ function expectation_value(psi,O)
     #<psi|O|psi>
     return inner(psi',O,psi)
 end
-
-# function mutual_info(A,B,AB,psi)
-#     Aexpt = expectation_value(psi,A)
-#     Bexpt = expectation_value(psi,B)
-#     ABexpt= expectation_value(psi,AB)
-#     # log ( <AB>/<A>*<B>)
-#     return log(ABexpt/Aexpt/Bexpt)
-# end
-
-# function Information_vec(n,psi_t,sites)
-#     #Builds P_A, P_B
-#     P_A = P1(1,sites)
-#     P_B = P1(n+1,sites)
-#     for ni in 2:n
-#         P_A = apply(P_A,P1(ni,sites))
-#         P_B = apply(P_B,P1(ni+n,sites))
-#     end
-#     #Builds P_AB
-#     P_AB = apply(P_A,P_B)
-#     #calculates info as a function of time
-#     IAB_t = [mutual_info(P_A,P_B,P_AB,pt) for pt in psi_t]
-#     return real.(IAB_t)
-# end
-
-
-
 ##Constants
 #Lattice Size
 L =50
