@@ -146,8 +146,8 @@ def sigma_general(indices,Gi,L):
     #Remove any duplicates as sigma_x^2 = 1
     indices = remove_duplicates_in_pairs(indices)
 
-    #even = True
-    even = False
+    even = True
+    #even = False
     if len(indices)%2 == 1:
       if even ==True:
         return 0
