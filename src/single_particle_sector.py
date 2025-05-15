@@ -146,16 +146,6 @@ def sigma_general(indices,Gi,L):
     #Remove any duplicates as sigma_x^2 = 1
     indices = remove_duplicates_in_pairs(indices)
 
-    even = True
-    #even = False
-    if len(indices)%2 == 1:
-      if even ==True:
-        return 0
-      else:
-        constant = L//2
-        indices = list(indices) + [x + constant for x in indices]
-        return np.sqrt(np.abs(sigma_general(indices,Gi,L)))
-    
     #Bs sit on odd sites
     odd_sites = np.array(indices[::2])
     #As site on even sites
@@ -184,69 +174,6 @@ def sigma_general(indices,Gi,L):
             C[nx,ny] = M[Bx,Ay]
 
     return la.det(C)
-
-##Depreciated Method##
-
-# def sigma_general(indices,G):
-#     """
-#     Calculates the expectation values of sigma_x operators put at arbitary sites"
-#     Inputs:
-#     indices = list of integers
-#     G = 2L x2L correlation matrix corresponding to quantum state of interest
-
-#     Outputs:
-#     complex scalar 
-
-#     Example:
-
-#     indices = [1, 2, 3, 4, 5] 
-#     sigma_5pt = sigma_general(indices,G)
-#     """
-#     #Commutation lets us sort indices
-#     indices = np.sort(indices)
-#     #If odd, return 0 (Even projection)
-#     if len(indices)%2 == 1:
-#         constant = 10
-#         indices = list(indices) + [x + constant for x in indices]
-#         return np.sqrt(np.abs(sigma_general(indices,G)))
-    
-#     #Helper function to remove duplicates in the list
-#     # <Sigma^2> = 1 for all indices and sigmas
-#     def remove_duplicates_in_pairs(vec):
-#         unique_vals, counts = np.unique(vec, return_counts=True)
-#         filtered_vals = unique_vals[counts % 2 != 0]
-#         return filtered_vals.tolist()
-#     #Remove duplicate indices
-#     indices = remove_duplicates_in_pairs(indices)
-#     #<sigma^2> = 1
-#     if len(indices)==0:
-#         return 1
-    
-#     #Prepare operator string list
-#     string_list = []
-#     #Loop over each index
-#     for i in range(len(indices)):
-#         #All operators are of the form B-A
-#         if i%2==0:
-#             #B
-#             string_list.append([indices[i],"B"])
-#         else:
-#             #A
-#             string_list.append([indices[i],"A"])
-    
-#     for i in range(0,len(indices),2):
-#         #Fill in JW-Strings, these commute and therefore can be added in at the end
-#         for a in range(indices[i]+1,indices[i+1]):
-#             #Adds "A B " terms
-#             string_list.append([a,"A"])
-#             string_list.append([a,"B"])
-    
-#     M = construct_M_matrix(string_list, correlation_function, G)
-
-
-#     return np.sqrt(la.det(M))
-
-
 #Projectors
 def binomial_expansion(indices):
     """
@@ -268,7 +195,7 @@ def unique_elements_and_frequencies(vec):
     unique_vals, freqs = np.unique(vec, return_counts=True)
     return unique_vals, freqs
 from collections import Counter
-def P_n(n,G,L):
+def P_n(n,G,L,even= True):
     """
     P_n scales directly with the number of terms since even small odd sigma correlations need larger support to calcualte.
     Taking out odd terms works to make easier, but scaling is still 2^n.
@@ -278,7 +205,6 @@ def P_n(n,G,L):
     #That said, watch out for this definition of indices
     indices = [i for i in range(0,n)]
     terms = all_combinations(indices)
-    dat = []
 
     ###
     x_c = []
@@ -293,11 +219,23 @@ def P_n(n,G,L):
     counts = np.array(list(counter.values()))
 
     ##
+      ##
+    dat = []
 
     for term in range(len(vecs)):
-        dat.append(sigma_general(vecs[term],G,L)*counts[term])
-    dat.append(sigma_general([],G,L))
+        indices = vecs[term]
+        degen = counts[term]
 
+        if len(indices)%2 == 1:
+            if even ==True:
+                dat.append(0)
+            else:
+                constant = L//2
+                indices = list(indices) + [x + constant for x in indices]
+                dat.append(np.sqrt(sigma_general(indices,G,L))*degen)
+        else:
+            dat.append(sigma_general(indices,G,L)*degen)
+    dat.append(1)
     #All terms have equal weight. 
     return np.sum(dat)/2**n
 
