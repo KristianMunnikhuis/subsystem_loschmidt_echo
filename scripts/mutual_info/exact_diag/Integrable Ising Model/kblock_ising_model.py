@@ -121,17 +121,13 @@ def sigma_general(indices,T,k):
 
     A_coords = [x for x in R if x not in odd_sites]
     B_coords = [x for x in R if x not in even_sites]
-    N = len(A_coords)
-
-    # Compute first column: D(B_coords[0] - A_coords + 1)
-    first_col = np.array([D(B_coords[0] - A_coords[j] + 1, T, k) for j in range(N)])
-
-    # Compute first row: D(B_coords[i] - A_coords[0] + 1)
-    first_row = np.array([D(B_coords[i] - A_coords[0] + 1, T, k) for i in range(N)])
-
-    # Construct Toeplitz matrix
-    C = toeplitz(first_col, first_row)
-
+    C = np.zeros((N,N))
+    for nx in range(N):
+        for ny in range(N):
+            Bx = B_coords[nx]
+            Ay = A_coords[ny]
+            Nd = Bx-Ay+1
+            C[nx,ny] = D(Nd,T,k)
     return la.det(C)
 ####PROJECTORS 
 
@@ -193,7 +189,7 @@ def P_n(n,U,k, even = True):
             else:
                 constant = len(k)//2
                 indices = list(indices) + [x + constant for x in indices]
-                dat.append(np.sqrt(sigma_general(indices,U,k))*degen)
+                dat.append(np.sqrt(np.abs(sigma_general(indices,U,k)))*degen)
         else:
             dat.append(sigma_general(indices,U,k)*degen)
     dat.append(1)

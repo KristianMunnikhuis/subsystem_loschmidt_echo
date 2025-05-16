@@ -151,7 +151,7 @@ def sigma_general(indices,Gi,L):
     #As site on even sites
     even_sites= np.array(indices[1::2])
     #Get string lengths
-    JW_string_lengths = even_sites-odd_sites\
+    JW_string_lengths = even_sites-odd_sites
     #Sum of string lengths is size of matrix needed
     N = sum(JW_string_lengths)
     #Fill in indices for strings
@@ -232,7 +232,7 @@ def P_n(n,G,L,even= True):
             else:
                 constant = L//2
                 indices = list(indices) + [x + constant for x in indices]
-                dat.append(np.sqrt(sigma_general(indices,G,L))*degen)
+                dat.append(np.sqrt(np.abs(sigma_general(indices,G,L)))*degen)
         else:
             dat.append(sigma_general(indices,G,L)*degen)
     dat.append(1)
