@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage{graphicx} 
+\usepackage{braket}
+\usepackage{biblatex}
+\usepackage{amsmath}
+\begin{document}
+\section{Landau-Zener Solution}
+The time depednent equations for the TFIM reduce to 
+
+\begin{equation}
+    i \hbar \frac{d u_k}{d\tau } = 
+    -\frac{1}{2} ( \tau \Delta_k) u_k + \frac{1}{2}v_k
+\end{equation}
+\begin{equation}
+    i \hbar \frac{d v_k}{d\tau } = 
+    +\frac{1}{2} ( \tau \Delta_k) v_k + \frac{1}{2}u_k
+\end{equation}
+
+Here, $\tau$ depends on the time $t$ and the quench protocol, while $\Delta_k$ is the gap parameter for mode $k$. The functions $u_k(\tau)$ and $v_k(\tau)$ describe the time evolution of the Bogoliubov quasiparticle amplitudes for each momentum mode $k$.
+
+We can define them as follows:
+
+\begin{equation}
+    \Delta_k ^{-1} = 4 J \tau_Q \sin^2(ka)
+\end{equation}
+\begin{equation}
+    \tau = 4 J \tau_q \sin(ka)(\frac{t}{\tau_Q}+\cos(ka))
+\end{equation}
+\end{document}
