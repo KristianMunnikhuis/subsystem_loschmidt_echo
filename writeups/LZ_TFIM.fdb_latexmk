@@ -1,20 +1,23 @@
 # Fdb version 4
-["biber LZ_TFIM"] 1747682825.31418 "LZ_TFIM.bcf" "LZ_TFIM.bbl" "LZ_TFIM" 1747683482.40185 0
-  "LZ_TFIM.bcf" 1747683482.36443 107992 1372e320b8e132f38eb5706b82283cc8 "pdflatex"
+["biber LZ_TFIM"] 1747847183.8216 "LZ_TFIM.bcf" "LZ_TFIM.bbl" "LZ_TFIM" 1747847227.46361 0
+  "LZ_TFIM.bcf" 1747847227.42835 107992 1372e320b8e132f38eb5706b82283cc8 "pdflatex"
   (generated)
   "LZ_TFIM.bbl"
   "LZ_TFIM.blg"
   (rewritten before read)
-["pdflatex"] 1747683481.86458 "/Users/kristianmunnikhuis/Research Projects/subsystem_loschmidt_echo/writeups/LZ_TFIM.tex" "LZ_TFIM.pdf" "LZ_TFIM" 1747683482.40205 0
-  "/Users/kristianmunnikhuis/Research Projects/subsystem_loschmidt_echo/writeups/LZ_TFIM.tex" 1747683481.79466 927 aed59e7f23fc2bb7ba7cebcf5126bd98 ""
+["pdflatex"] 1747847227.00664 "/Users/kristianmunnikhuis/Research Projects/subsystem_loschmidt_echo/writeups/LZ_TFIM.tex" "LZ_TFIM.pdf" "LZ_TFIM" 1747847227.46379 0
+  "/Users/kristianmunnikhuis/Research Projects/subsystem_loschmidt_echo/writeups/LZ_TFIM.tex" 1747847226.45519 4671 40bfee23c82ed6bc3bccf5321ced7827 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1136768653 1288 655e228510b4c2a1abe905c368440826 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1248133631 32080 340ef9bf63678554ee606688e7b5339d ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1248133631 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb" 1248133631 37912 77d683123f92148345f3fc36a38d9ab1 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1248133631 36281 c355509802a035cadc5f15869451dcee ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb" 1248133631 31809 8670ca339bf94e56da1fc21c80635e2a ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1248133631 32762 224316ccc9ad3ca0423a14971cfa7fc1 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
@@ -65,10 +68,10 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1747425868 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1741450574 3345740 46b66fdb0378f7bf5921b5eabf1762b8 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "LZ_TFIM.aux" 1747683482.36363 257 e501a0169e8348515ffd388dace990e4 "pdflatex"
-  "LZ_TFIM.bbl" 1747682832.79265 0 d41d8cd98f00b204e9800998ecf8427e "biber LZ_TFIM"
-  "LZ_TFIM.run.xml" 1747683482.36492 2245 b6639c9e416ce85d5bfe45907d5bf2b5 "pdflatex"
-  "LZ_TFIM.tex" 1747683481.79466 927 aed59e7f23fc2bb7ba7cebcf5126bd98 ""
+  "LZ_TFIM.aux" 1747847227.42739 543 b2392ef37de92b2da02f30a542bc176b "pdflatex"
+  "LZ_TFIM.bbl" 1747847185.07683 0 d41d8cd98f00b204e9800998ecf8427e "biber LZ_TFIM"
+  "LZ_TFIM.run.xml" 1747847227.42881 2245 b6639c9e416ce85d5bfe45907d5bf2b5 "pdflatex"
+  "LZ_TFIM.tex" 1747847226.45519 4671 40bfee23c82ed6bc3bccf5321ced7827 ""
   (generated)
   "LZ_TFIM.aux"
   "LZ_TFIM.bcf"

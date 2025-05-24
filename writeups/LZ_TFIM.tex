@@ -4,7 +4,10 @@
 \usepackage{biblatex}
 \usepackage{amsmath}
 \begin{document}
-\section{Landau-Zener Solution}
+\section{Landau-Zener Solution to Kibble-Zurek Scaling}
+This section comes directly from "Dynamics of a Quantum Phase Transition: Exact Solution in Quantum Ising model"
+
+
 The time depednent equations for the TFIM reduce to 
 
 \begin{equation}
@@ -26,4 +29,110 @@ We can define them as follows:
 \begin{equation}
     \tau = 4 J \tau_q \sin(ka)(\frac{t}{\tau_Q}+\cos(ka))
 \end{equation}
+
+This can be solved by first recognizing that only modes iwth small energy contribute in the limit of a large quench: 
+\begin{equation}
+    |ka| < \frac{\pi}{4}
+\end{equation}
+
+For these modes we may use the LZ formula for excitation probability:
+
+\begin{equation}
+    p_k \approx e^{-\frac{\pi}{2 \hbar \Delta_k}}
+\end{equation}
+
+This is valid when
+
+\begin{equation}
+    ka = (4 \pi J \tau_Q / \hbar )^{-\frac{1}{2}} << \frac{\pi}{4}
+\end{equation}
+
+or equivalently, when 
+
+\begin{equation}
+    \tau_Q >> \frac{4\hbar }{\pi^3 J}
+\end{equation}
+
+From which we then derive the number of kinks $\mathcal{N}$ or the defect density $$n = \frac{\mathcal{N}}{N}$$
+
+\begin{equation}
+    n = \lim_{N \to \infty} \frac{\mathcal{N}}{N} = \frac{1}{2\pi} \int ^{\pi}_{\pi} d(ka) p_k = \frac{1}{2\pi} \frac{1}{\sqrt{2J \tau_Q/\hbar}}
+\end{equation}
+
+It should be noted that this calculation of defect density provides $O(1)$ corrections to the formula suggested by Zurek. The real highlight is the prediction of power law scaling of defect density and $\tau_Q$:
+
+$$n \propto \tau_Q^{-\frac{1}{2}}$$
+
+The paper also points out that for a finite chain we can also predict the fastest $\tau_Q$ that no particles get excited (which can be done becuase a finite chain is gapped).
+
+This quantitiy is given as 
+\begin{equation}
+    \mathcal{P}_{GS} = \prod_{k>0} (1-p_k)
+\end{equation}
+
+Only the $\frac{\pi}{N}$ pair is likely to be excited (Question: Why?) so we can approximate that 
+
+\begin{equation}
+    \mathcal{P}_{GS} = 1- p_{\frac{\pi}{N}} \approx 1 - \exp(-2 \pi^3 \frac{J \tau_Q}{\hbar N^2})
+\end{equation}
+
+So we can estimate that an adiabatic quench occurs when 
+
+$$\tau_Q > \tau_Q^{ad} = \frac{\hbar N^2}{2 \pi^3 J}$$
+
+Inverting this relationship tells us that the size $N$ of a defect free chain grows as $\tau_Q^{\frac{1}{2}}$
+
+
+\subsection{Ferromagnetic to Paramagnetic}
+
+The previous section was for a disordered to ordered quench. Now, we can analyze the opposite.
+
+We can assume the value of $g$ to be of the form 
+
+$$g(t>0) = \frac{t}{\tau_Q}$$ 
+
+and that when $g=0$ we are in the even parity groundstate.
+
+In the $g>1$ groundstate limit we expect all spins to be in the $+x$ orientation, so we may define ground state fidelity as 
+
+\begin{equation}
+    \mathcal{F} = \frac{1}{2}(N - \sum _{n+1}^{N} \sigma^x_n)
+\end{equation}
+
+when $g>>1$ the hamiltonian reduces to $$H \approx -Jg \sum^N_{n=1} \sigma^x_n = -Jg(N-2\mathcal{F})$$
+
+At the same time, 
+
+$$H^{+} \approx 2Jg\sum_k \gamma^\dagger_k \gamma_k - JgN$$
+
+so we can recognize via inspection that 
+
+$$\mathcal{F} = \sum_k \gamma_k^\dagger \gamma_k$$
+
+which allows us to predict that defect density is the same, 
+
+\begin{equation}
+    f = \frac{1}{2\pi} \frac{1}{\sqrt{2 J \tau_Q /\hbar}}
+\end{equation}
+
+\section{Equilibrium Scaling exponents of Projector Operators}
+
+For this section, we will slightly modify the hamiltonian by rotation. 
+
+\begin{equation}
+    \hat{H} = -J \sum_{i=1}^{L} \sigma^{x}_{i} \sigma^{x}_{i+1} -h \sum_{i=1}^{L} \sigma^{z}_{i}
+\end{equation}
+
+Now we will discuss the scaling exponents of the projector operators. We approach this problem in the even parity sector so odd numbers of spin operators give 0 (e.g. $\braket{\sigma_x}=0$)
+
+For starters, we can look at $P_2$:
+
+\begin{equation}
+    \braket{P_2} = \frac{1}{4N} \sum_{i=1}^{L} \braket{1} + \braket({\sigma^x_i \sigma^{x}_{i+1}}) \approx \frac{1}{4}+\frac{ 
+        \braket{{\sigma^x_0 \sigma^{x}_{1}}}}{4}
+\end{equation}
+
+and how it is expected to scale near the critical point assuming the thermodynamic limit. Also, assuming PBC then the last $\approx \to =$
+
+
 \end{document}
