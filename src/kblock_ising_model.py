@@ -1,6 +1,6 @@
 #Imports
 import numpy as np
-import numpy.linalg as la
+import numpy.linalg as laB
 from itertools import combinations
 from scipy.linalg import toeplitz
 from collections import Counter

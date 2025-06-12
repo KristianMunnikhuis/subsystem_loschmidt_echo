@@ -117,7 +117,7 @@ which allows us to predict that defect density is the same,
 
 \section{Equilibrium Scaling exponents of Projector Operators}
 
-For this section, we will slightly modify the hamiltonian by rotation. 
+For this section, we will slightly modify the hamiltonian by rotation. The underlying physics will remain the same.
 
 \begin{equation}
     \hat{H} = -J \sum_{i=1}^{L} \sigma^{x}_{i} \sigma^{x}_{i+1} -h \sum_{i=1}^{L} \sigma^{z}_{i}
@@ -128,11 +128,120 @@ Now we will discuss the scaling exponents of the projector operators. We approac
 For starters, we can look at $P_2$:
 
 \begin{equation}
-    \braket{P_2} = \frac{1}{4N} \sum_{i=1}^{L} \braket{1} + \braket({\sigma^x_i \sigma^{x}_{i+1}}) \approx \frac{1}{4}+\frac{ 
+    \braket{P_2} = \frac{1}{4N} \sum_{i=1}^{L} (\braket{1} + \braket{\sigma^x_i \sigma^{x}_{i+1}}) \approx \frac{1}{4}+\frac{ 
         \braket{{\sigma^x_0 \sigma^{x}_{1}}}}{4}
 \end{equation}
 
-and how it is expected to scale near the critical point assuming the thermodynamic limit. Also, assuming PBC then the last $\approx \to =$
+and how it is expected to scale near the critical point assuming the thermodynamic limit. Also, assuming PBC then the last approximate equality turns into an exact equality.
+
+\subsection{$n$-point correlation functions}
+
+
+Correlations of the form $\braket{\sigma^x_0 \sigma^x_n}$ are computed using pfaffians of the fermionic operators. For instance, we can define 
+\begin{equation}
+    A_i = c^\dagger_i+c_i
+\end{equation}
+
+and 
+
+\begin{equation}
+    B_i = c^\dagger_i - c_i
+\end{equation}
+
+We can use the definition of $\sigma^x$ in terms of fermionic creation and annihilation operators to write out the expression
+
+\begin{equation}
+    \braket{\sigma^x_0 \sigma^x_n } = \braket{\mathbf{B_0}A_{1}B_{1}...A_{n-1}B_{n-1}\mathbf{A_n}}
+\end{equation}
+
+In the above expression I bold the first and last majorana fermionic operators to emphasize the structure of the correlation functions. The internal structure comes from the nature of the Jordan-Wigner strings that must attach the two operators.
+
+It can be shown through the definition of the operators that 
+
+\begin{align}
+    \braket{A_i A_j} &= \delta_{ij} \\
+    \braket{B_i B_j} &= -\delta_{ij}   
+\end{align}
+
+and that consequently the only "interesting" correlations will be of the form
+\begin{equation}
+    \braket{B_i A_j} = -\braket{A_j B_i} = D_{i-j+1}
+\end{equation}
+
+There are a few different ways at approaching the calculation of $D_n$. I cite the solution given by Sachdev:
+
+\begin{align}
+    D_n &= \int_{0}^{2\pi} \frac{d\phi}{2\pi} e^{-in\phi} \tilde{D}(e^{i\phi}) \\
+    \tilde{D}(z= e^{i\phi}) &= \left( \frac{1 - g z}{1 - \frac{g}{z}} \right)^{1/2} 
+    \tanh \left[ \frac{J}{T} \left( (1 - g z)\left(1 - \frac{g}{z} \right) \right)^{1/2} \right]
+\end{align}
+
+
+In the limit where T = 0, then the expression for $\tilde{D}$ reduces even more to just 
+
+\begin{equation}
+    \tilde{D} = \left( \frac{1-gz}{1-g/z} \right)^{1/2}
+\end{equation}
+
+The structure above can be used when you are calculating more complicated objects, which I will derive now.
+
+First, let's recognize that we can write 
+
+\begin{equation}
+    \sigma^x_{j} = (c^\dagger_j + c_j) \prod_{n=0}^{j-1} \sigma^z_n = A_j J(0,j-1)
+\end{equation}
+
+The $J(i,j)$ are the jordan-wigner strings connecting sites $i$ and $j$. It can be easily seen that they have the property $$J(i,j) J(i,k) = J(j+1,k)= \prod_{w=j+1}^{k} iB_{w}A_{w}$$ 
+
+
+From this, we can see that a general $n$-point function (assuming $n$ is even) is simple. For example, the 4 point function:
+
+\begin{equation}
+    \braket{\sigma^x_0 \sigma^x_{n_1} \sigma^x_{n_2} \sigma^x_{n_3}} = \braket{B_0 J(1,n_1-1)A_{n_1} B_{n_2} J(n_2+1,n_3-1) A_{n_3} }
+\end{equation}
+
+The structure of this correlation function generalizes to higher $n$ (assuming $n$ is even). Computationally, n point functions can be made even simpler remembering 
+
+$$[\sigma^x_j,\sigma^x_k]= \delta_{j,k}$$ and $$(\sigma^x_j)^2=1$$
+
+Which means we can always rearrange a 4 point function to be arranged from lowest to highest in index, then we can compute correlation functions in the form of connecting two two spins at a time.
+
+If $n$ is odd we need to use cluster decomposition, and we can only recover the magnitude of the correlation function (sign information will be lost).The result generalizes trivially from the 1-point function:
+
+\begin{equation}
+    |\braket{\sigma^x_j}| = \lim_{d\to \infty} |\braket{\sigma^x_j \sigma^x_{j+d}}|
+\end{equation}.
+
+In typical canon, the 2-point functions are calculated using Pfaffians of Toeplitz Matrices. The Pfaffian of a matrix $\mathbf{A}$ has the property that 
+
+\begin{equation}
+    \text{PF}(\mathbf{A}) = \sqrt{\text{det}(\mathbf{A})}
+\end{equation}
+
+However, when you have more complicated correlation (for example, a corrleation function like $\braket{\sigma^x_{0}\sigma^x_{3} \sigma^x_{5} \sigma^x_{6}}$) function the resulting matrices cannot be properly determined via Toeplitz matrices, which is a shame because constructing them is very quick. 
+
+Instead, we can construct the matrix by iterating over 2 point functions.
+
+\subsection{Explicit Example}
+
+Consider the correlation function 
+
+$$\braket{\sigma^x_{0}\sigma^x_{2} \sigma^x_{5} \sigma^x_{6}} = \braket{\mathbf{B_0} A_1 B_1 \mathbf{A_2} \mathbf{B_5} \mathbf{A_6}  }$$
+
+I have bolded the "endpoints" of strings to emphasize the form. In a gaussian free theory like the TFIM correlation functions like above can be solved via wick contractions. The Pfaffian of the matrix formed via elements of the wick contraction is an efficient way of doing this. 
+
+\begin{equation}
+    \braket{\sigma^x_{0}\sigma^x_{2} \sigma^x_{5} \sigma^x_{6}} = 
+    \det{
+    \begin{pmatrix}
+        \braket{B_0A_1} && \braket{B_0 A_2} && \braket{B_0 A_6} \\
+        \braket{A_1 B_1} && \braket{B_1 A_2} && \braket{B_1 A_6} \\
+        \braket{ A_1 B_5} && \braket{A_2 B_5 } && \braket{B_5 A_6}
+    \end{pmatrix}}
+\end{equation}
+
+We can see that because all quantities like $\braket{A_i A_j}=\delta_{ij}$ we can simply ignore these terms. 
+
 
 
 \end{document}
