@@ -242,6 +242,86 @@ I have bolded the "endpoints" of strings to emphasize the form. In a gaussian fr
 
 We can see that because all quantities like $\braket{A_i A_j}=\delta_{ij}$ we can simply ignore these terms. 
 
+\section{Kibble-Zurek Effect in the TFIM}
+
+In momentum space, the TFIM is 2x2 block diagonalizable into distinct bogoliouv modes with momentum $k$. That is is to say, there are essentially $N$ independent wavefunctions of the form 
+\begin{equation}
+    \ket{k} = a \ket{0_k} + b \ket{1_k}
+\end{equation}
+
+The energy, $\Delta_k$, between these two states (in the thermodynamic limit) is $2J|1-g\cos(k)|$. 
+
+We can attempt to vary $H(g)$, the hamiltonian of the TFIM where $g$ controls the strength of the $-\sigma^z_i$ coupling. When $g>1$, the system is in the paramagnetic and when $g<1$ it is in the ferromagnetic state.
+
+If we vary $H(g)$ slower than a time scale set by $\tau_k=\frac{1}{\Delta_k}$ excitations of our initial state $\ket{0_k}$ are unlikely to occur. However, as $g=1$ then $\tau_k$ diverges for low momentum modes and excitations form with probabilities close to unity. The system is said to "freeze out" as the time scale that the hamiltonian changes is far greater than the time scale needed for the system to equilibriate to the ground state. 
+
+When dynamics restart, the state--which did not follow the ground state through the transition-- is now an excited state of a new hamiltonian and particles (essentially flipped spins) are released which are the defects of the kibble zurek mechanism. For instance, in the transition from the ferromagnetic state to the paramagnetic state, one might find $ \bra{\Psi(t)} \hat{\sigma^z_i} \ket{\Psi(t)} < 1$.
+
+When the dynamics restart, the timescale needed for relaxation $\tau_k$ decreases and the system remains in the excited state with the same number of quasiparticles with exceedingly high probability. For this reason, we typically allow ourselves the following assumptions:
+
+1: Far from the critical point we may extend our initial conditions to $t=-\infty$ and our final condition to $t=\infty$.
+2: That all of the intresting physics only really happens in a small window of time near $t=0$ where transitions like $\ket{0_k} \to \ket{1_k}$ occur with probability $p_k$.
 
 
+The probability $p_k$ of excitation for each mode $k$ can be computed exactly in the thermodynamic limit and is found to have a Gaussian form in $k$ for slow quenches. Specifically, for large $\tau_Q$, the excitation probability is
+
+\begin{equation}
+    p_k \approx \exp\left(-2\pi  \tau_Q J k^2 \right)
+\end{equation}
+
+We will not derive this expression here, however we do acknowledge that this approximation is valid when $\frac{1}{\sqrt{4\pi J \tau_Q}} \ll \frac{\pi}{4}$.
+
+The important (and measurable) thing is that now the expectation values of our operators should be different as the individual momentum modes are now in a statistical mixture. E.g. $\ket{k (\infty)} = \ket{1}$ with probability $p_k$, or more specifically 
+
+\[
+\rho_k = p_k \ket{0}\bra{0} + (1 - p_k) \ket{1}\bra{1} =
+\begin{pmatrix}
+p_k & 0 \\
+0 & 1 - p_k
+\end{pmatrix}
+\]
+
+This is \textbf{not} a quantum superposition, so expectation values will not depend on overlaps such as $\bra{1_k} \hat{O_k} \ket{0_k}$.
+
+Now with those preliminaries, we can move on to the main calculation. 
+
+First, it will prove useful to evaluate the expectation values of combinations of creation and annihilation fermionic operators, e.g. calculating $\bra{\psi} \hat{c}_k \hat {c}_q \ket{\psi}, \bra{\psi} \hat{c}^\dagger_k \hat {c}_q \ket{\psi}...$ for $\ket{\psi} = \ket{0_k}, \ket{1_k}$.
+
+Recall that this calculation is done by defining the fermionic operator $]hat c_k$ in terms of the bogoliouv operators ($\gamma_k$) that diagonalize the hamiltonian.
+
+\begin{equation}
+    \hat{c}_k = u_k \gamma_k + v^*_{-k} \gamma^\dagger_{-k}
+\end{equation}
+
+Recall that these operators are defined such that $\gamma_k \ket{0}=0$ and $\gamma^\dagger_k \ket{1}= 0$.
+
+\subsection{Correlation functions in the TFIM}:
+
+We will do one explicit example of a correlation and cite the remaining results.
+
+\begin{align}
+    \bra{0} \hat{c}_k \hat{c}_q \ket{0} &= 
+    \bra{0} (u_k \gamma_k + v^*_{-k} \gamma^\dagger_{-k}) (u_q \gamma_q + v^*_{-q} \gamma^\dagger_{-q}) \ket{0} \\
+    &= \bra{0} u_k \gamma_k v^*_{-q} \gamma^\dagger_{-q} \ket{0}\\
+    &= \delta_{k,-q} u_k v^*_{-q}
+\end{align}
+
+We now cite all four combinations of correlation functions:
+
+\begin{align}
+\bra{0} \hat{c}_k \hat{c}_q \ket{0} &= \delta_{k,-q} u_k v^*_{-q} \\
+\bra{0} \hat{c}^\dagger_k \hat{c}_q \ket{0} &= \delta_{k,q} v_{-k} v^*_{-q}  = |v_k|^2\\
+\bra{0} \hat{c}_k \hat{c}^\dagger_q \ket{0} &= \delta_{k,q} u_{k} u^*_{q} \\
+\bra{0} \hat{c}^\dagger_k \hat{c}^\dagger_q \ket{0} &= \delta_{k,-q} v_{-k} u^*_{q}
+\end{align}
+
+
+Now we will do the same with correlations involving the $\ket{1_k} = \gamma^\dagger_k \ket{0}$ state:
+
+\begin{align}
+    \bra{1_k} \hat{c}_k \hat{c}_q \ket{1_k} &= \bra{0} \gamma_k  \hat{c}_k \hat{c}_q \gamma^\dagger_{k} \ket{0}
+    \\
+    &= \bra{0} \gamma_{k} (u_k \gamma_k + v^*_{-k} \gamma^\dagger_{-k}) (u_q \gamma_q + v^*_{-q} \gamma^\dagger_{-q}) \gamma^\dagger_{k} \ket{0} \\
+    \\
+\end{align}
 \end{document}
