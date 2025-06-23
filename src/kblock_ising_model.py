@@ -1,6 +1,6 @@
 #Imports
 import numpy as np
-import numpy.linalg as laB
+import numpy.linalg as la
 from itertools import combinations
 from scipy.linalg import toeplitz
 from collections import Counter
@@ -128,7 +128,7 @@ def sigma_general(indices,T,k):
             Ay = A_coords[ny]
             Nd = Bx-Ay+1
             C[nx,ny] = D(Nd,T,k)
-    return la.det(C)
+    return np.linalg.det(C)
 ####PROJECTORS 
 
 
@@ -202,7 +202,7 @@ def P_n_correlations(n,l,U,k, even = True):
     #Term 1 
     indices = [i for i in range(0,n)]
     #Term 2 
-    indices +=[i for i in range(n+l,2*n+l)]
+    indices +=[i for i in range(n+l-1,2*n+l-1)]
     terms = all_combinations(indices)
    # print(terms)
      ###

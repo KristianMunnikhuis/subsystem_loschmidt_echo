@@ -319,9 +319,24 @@ We now cite all four combinations of correlation functions:
 Now we will do the same with correlations involving the $\ket{1_k} = \gamma^\dagger_k \ket{0}$ state:
 
 \begin{align}
-    \bra{1_k} \hat{c}_k \hat{c}_q \ket{1_k} &= \bra{0} \gamma_k  \hat{c}_k \hat{c}_q \gamma^\dagger_{k} \ket{0}
+    \bra{1_p} \hat{c}_k \hat{c}_q \ket{1_p} &= \bra{0} \gamma_p  \hat{c}_k \hat{c}_q \gamma^\dagger_{p} \ket{0}
     \\
-    &= \bra{0} \gamma_{k} (u_k \gamma_k + v^*_{-k} \gamma^\dagger_{-k}) (u_q \gamma_q + v^*_{-q} \gamma^\dagger_{-q}) \gamma^\dagger_{k} \ket{0} \\
-    \\
+    &= \bra{0} \gamma_{p} (u_k \gamma_k + v^*_{-k} \gamma^\dagger_{-k}) (u_q \gamma_q + v^*_{-q} \gamma^\dagger_{-q}) \gamma^\dagger_{p} \ket{0} \\
+    &= \bra{0} (u_k \gamma_p \gamma_k + v^*_{-k} \gamma_p \gamma^\dagger_{-k}  ) (u_q \gamma_q \gamma^\dagger_{p} + v^*_{-q} \gamma^\dagger_{-q} \gamma^\dagger_p ) \ket{0}
+    \\&= \bra{0} u_k u_q \gamma_p \gamma_k \gamma_q \gamma^\dagger_p + v^*_{-k} u_q \gamma_p \gamma^\dagger_{-k} \gamma_q \gamma^\dagger_p  + u_k v^*_{-q} \gamma_p \gamma_k \gamma^\dagger_{-q} \gamma^\dagger_{p} + v^*_{-k} v^*_{-q} \gamma_p \gamma^\dagger_{-k} \gamma^\dagger_{-q} \gamma^\dagger_{p}         \ket{0}
+    \\ &= \bra{0} v^*_{-k} u_q \gamma_p \gamma^\dagger_{-k} \gamma_q \gamma^\dagger_p  + u_k v^*_{-q} \gamma_p \gamma_k \gamma^\dagger_{-q} \gamma^\dagger_{p}     \ket{0}
 \end{align}
+
+The terms with uneven amounts of creation and annihilation operators triviially get eliminated. We can evaluate the remaining terms using wick's theorem
+
+\begin{align}
+    \bra{0} \gamma_p \gamma^\dagger_{-k} \gamma_q \gamma^\dagger_p \ket{0} &= \delta_{p,-k} \delta_{q,p} + \delta_{-k,q} \\
+    \bra{0} \gamma_p \gamma_{k} \gamma^\dagger_{-q} \gamma^\dagger_p \ket{0} &= \delta_{k,-q}- \delta_{p,-q}\delta_{p,k}
+\end{align}
+
+so that 
+
+\begin{equation}
+    \bra{1_p} \hat{c}_k \hat{c}_q \ket{1_p} = v^*_{-k}u_q (\delta_{p,-k} \delta_{q,p} + \delta_{-k,q})+u_k v^*_{-q} (\delta_{k,-q}- \delta_{p,-q}\delta_{p,k})
+\end{equation}
 \end{document}
