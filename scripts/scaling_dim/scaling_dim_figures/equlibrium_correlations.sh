@@ -13,8 +13,10 @@ echo "Job ID : $JOB_ID  $SGE_TASK_ID"
 echo "=========================================================="
 
 
-# Get the argument from the command line
-n=$1
+# Use an environment variable
+n=$nval
+
+echo "Running with n = $n"
 
 python equilibrium_correlations.py
 
