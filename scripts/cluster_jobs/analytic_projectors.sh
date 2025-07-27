@@ -12,7 +12,7 @@ echo "Start date: $(date)"
 echo "Job name : $JOB_NAME"
 echo "Job ID : $JOB_ID  $SGE_TASK_ID"
 echo "=========================================================="
-
+L_values=(18 20 22 24 26)  
 for L in "${L_values[@]}"; do
     echo "Running with L = $L"
     julia analytic_projectors.jl $L
