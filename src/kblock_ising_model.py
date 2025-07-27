@@ -23,7 +23,7 @@ def U(k, g):
     returns: [u,v] where u={uk} (np.array) and v= {vk} (np.array) are the normalized eigenvectors
 
 
-    Example
+    Exampl
 
     U(k,inf)[0] = u = [1 , 1 , 1....]
     """

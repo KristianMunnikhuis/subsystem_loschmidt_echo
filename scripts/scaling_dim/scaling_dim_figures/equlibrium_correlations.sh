@@ -2,10 +2,9 @@
 
 #$ -P fheating
 #$ -m ea
-#$ -N Adiabatic_Projectors
+#$ -N Equilbrium Correlations
 #$ -j y
 
-  # List of L values
 
 echo "================"
 echo "Start date: $(date)"
@@ -14,7 +13,9 @@ echo "Job ID : $JOB_ID  $SGE_TASK_ID"
 echo "=========================================================="
 
 
+# Get the argument from the command line
+n=$1
 
-python adiabatic_projectors.py
+python equilibrium_correlations.py
 
 echo "Completed!"
