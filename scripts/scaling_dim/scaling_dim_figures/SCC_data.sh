@@ -4,6 +4,7 @@
 #$ -m ea
 #$ -N Equilibrium_Correlations
 #$ -j y
+module load python3/3.12.4
 
 echo "================"
 echo "Start date: $(date)"
