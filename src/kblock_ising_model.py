@@ -1,11 +1,23 @@
+'''
+Uses momentum space equations for Bogoliouv modes in the TFIM to calculate observables. 
+
+c = creation operator
+a = annihilation operator
+
+In the Translationally invariant TFIM only relative distance between operators matters.
+'''
+
+########################################################
 #Imports
+########################################################
 import numpy as np
 import numpy.linalg as la
 from itertools import combinations
 from scipy.linalg import toeplitz
 from collections import Counter
-
+################################################
 #TFIM Functions
+################################################
 def k_vals(L):
     return (2 * np.arange(-L//2, L//2) + 1) * np.pi / (L)
 def epsilon(k,g,J=1):
@@ -32,8 +44,9 @@ def U(k, g):
     norm = np.sqrt(u**2 + v**2)
     return u / norm, v / norm
 
+################################################
 #Correlation Functions
-
+################################################
 
 def ca(U, k, l):
     """inputs: U = [u,v], k (np.array), l (integer)
@@ -73,6 +86,7 @@ def cc(U, k, l):
     amp = np.conj(u) * v
     phase = np.exp(-1j * k * l)
     return 1j * np.mean(amp * phase)
+
 def AA(args):
     """input: args = [U,k,l]"""
     return cc(*args)+ca(*args)+ac(*args)+aa(*args)
@@ -93,7 +107,9 @@ def D(N,U,k):
     n = 1-N
     args = [U,k,n]
     return BA(args)
-
+################################################
+#           Operator Functions
+################################################
 
 def sigma_general(indices,T,k):
     def remove_duplicates_in_pairs(vec):
@@ -129,8 +145,11 @@ def sigma_general(indices,T,k):
             Nd = Bx-Ay+1
             C[nx,ny] = D(Nd,T,k)
     return np.linalg.det(C)
-####PROJECTORS 
 
+
+################################################
+#                X PROJECTORS
+################################################
 
 def binomial_expansion(indices):
     """

@@ -1,12 +1,28 @@
+"""
+Time-dependent equations for the Bogoliouv fermions starting at t = -inf going to t = t.
+
+At t= 0, it is at the critical point (g=1)
+
+At t = tau, it is in the full ordered x phase (g = 0)
+
+"""
+
+################################################
+#                   IMPORTS
+################################################
 import numpy as np
 from numpy import cos, sin, exp, pi, sqrt, abs
 from mpmath import pcfd
 import kblock_ising_model as kb
+from itertools import combinations
+from collections import Counter
 
 
+################################################
+#            TIME DEPENDENT SOLUTIONS
+################################################
 ###These Functions are given by 7.2.87-88 of "Quantum Ising Phases and Transitions"
 ###They represent the bogoliouv Transformation starting from t0 = - inf to a time tf with a speed related to tau. g goes from infinity to -infinity.
-
 
 def u_tilde(tau,q,tf):
     """tau = quench time
@@ -41,7 +57,15 @@ def v_tilde(tau,q,t):
     #Can be unstable at large tau
     return prefactor*complex(pcfd(nu,argument))
 
-##There is something currently wrong with these, but these are supposed to be the ground state bogoliouv transformation.
+
+def g(t,tau):
+    return -t/tau + 1
+
+
+
+################################################
+#            GROUND STATE SOLUTIONS (INCORRECT)
+################################################
 
 def u_diag(q,g):
     a = g+cos(q)
@@ -61,6 +85,9 @@ def v_diag(q,g):
     return b/denom
 
 
+################################################
+#           FULL SYSTEM SOLUTIONS
+################################################
 def k_vals(L):
     """Generates k values >0"""
     x=(2 * np.arange(-L//2, L//2) + 1) * np.pi / (L)
@@ -86,7 +113,9 @@ def ground_state(L,tau,t):
     vs /= norm
     return [us,vs,k]
 
-
+################################################
+#           CORRELATION FUNCTIONS
+################################################
 def G(r,state):
     """r = integer
     state = [us, vs, k]
@@ -103,9 +132,6 @@ def D(n,state):
     """Strange Convention, n = r-1"""
     r = n+1
     return G(r,state)
-def g(t,tau):
-    return -t/tau + 1
-
 
 def sigma_general(indices,state):
     def remove_duplicates_in_pairs(vec):
@@ -142,10 +168,9 @@ def sigma_general(indices,state):
             C[nx,ny] = D(Nd,state)
     return np.linalg.det(C)
 
-##Projector Functions 
-from itertools import combinations
-from collections import Counter
-
+################################################
+#           PPROJECTORS
+################################################
 def binomial_expansion(indices):
     """
     Computes the pairs of combinations of indices.
