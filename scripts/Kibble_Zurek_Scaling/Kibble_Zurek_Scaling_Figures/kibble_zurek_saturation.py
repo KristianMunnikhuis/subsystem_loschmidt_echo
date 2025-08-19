@@ -9,7 +9,7 @@ from time import time
 
 #PARAMETERS
 L = 1000
-n_max = 18
+n_max = 16
 tau_lower_exponent= -2.5
 tau_upper_exponent= 2.5
 N_taus= 50

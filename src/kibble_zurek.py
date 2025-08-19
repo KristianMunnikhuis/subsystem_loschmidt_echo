@@ -16,7 +16,9 @@ from mpmath import pcfd
 import kblock_ising_model as kb
 from itertools import combinations
 from collections import Counter
+import mpmath as mp
 
+mp.mp.dps = 50   
 
 ################################################
 #            TIME DEPENDENT SOLUTIONS
@@ -116,6 +118,8 @@ def ground_state(L,tau,t):
 ################################################
 #           CORRELATION FUNCTIONS
 ################################################
+
+# note: I had an EXTREMELY tough time on this one. Pay attention to the signs and phase of the terms! G must be a real number! 
 def G(r,state):
     """r = integer
     state = [us, vs, k]
@@ -125,7 +129,7 @@ def G(r,state):
     v = state[1]
     k = state[2]
     #Equation 7.2.26a
-    Gr = 2*cos(k*r)*(np.abs(u)**2-np.abs(v)**2)-2j*sin(k*r)*(np.conj(u)*v+v*np.conj(u))
+    Gr = 2*cos(k*r)*(np.abs(u)**2-np.abs(v)**2)-2j*sin(k*r)*(np.conj(u)*v-np.conj(v)*u)
     return -np.mean(Gr)/2
 
 def D(n,state):
