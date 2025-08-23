@@ -12,7 +12,16 @@ Primarily we use ITensor, ITensorMPS for our julia coding.
 We utilize QuSpin in python for exact diagonalization.
 
 
-/src - function files. The model we use is the TFIM. Currently only for Analytic and Numerical functions for Julia.
+/src - function files. The model we use is the TFIM. 
+      kblock_ising_model.py - Uses momentum blocks to calculate expectation values in the ground state for generic $g$, $L$.
+      single_particle_sector.py - A slightly outtdated way of doing some calculations. It migh be faster htan kblock_ising_model.py for some cases. It relies much more heavily on linear algebra. 
+      equilibrium_critical_correlations.py- Uses exact results in the thermodynamic limit for expectation values. Comes from Sachdev. 
+      kibble_zurek.py - Calculates expectation values for a linear quench from $g=\infty$. Uses analytical results.
+
+In all of these, I define an incredibly useful function sigma_general.
+
+This function is, more or less, the end all be all. It calculates arbitrary expecation values of pauli spin x matrices, which we can use to build up $P_n$.
+
 
 /scripts - where a lot of the work is done:
 ##It should be noted that "mutual info" really refers to the connected correlation function of which mutual info is an upper bound.
