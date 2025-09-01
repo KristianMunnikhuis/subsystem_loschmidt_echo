@@ -11,6 +11,11 @@ Primarily we use ITensor, ITensorMPS for our julia coding.
 
 We utilize QuSpin in python for exact diagonalization.
 
+Installation:
+
+```
+conda env create -f environment.yml
+```
 
 /src - function files. The model we use is the TFIM. 
       kblock_ising_model.py - Uses momentum blocks to calculate expectation values in the ground state for generic $g$, $L$.

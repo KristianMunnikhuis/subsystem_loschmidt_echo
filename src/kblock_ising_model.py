@@ -147,6 +147,31 @@ def sigma_general(indices,T,k):
     return np.linalg.det(C)
 
 
+def sigma_general_z(indices,T,k):
+    def remove_duplicates_in_pairs(vec):
+      unique_vals, counts = np.unique(vec, return_counts=True)
+      filtered_vals = unique_vals[counts % 2 != 0]
+      return filtered_vals.tolist()
+    #Sigma matrices on different sites commute
+    indices = np.sort(indices)
+    #Remove any duplicates as sigma_x^2 = 1
+    indices = remove_duplicates_in_pairs(indices)
+
+    #Get string lengths
+    A_coords = np.array(indices)
+    B_coords = np.array(indices)
+    N = len(indices)
+    C = np.zeros((N,N))
+    for nx in range(N):
+        for ny in range(N):
+            Bx = B_coords[nx]
+            Ay = A_coords[ny]
+            Nd = Bx-Ay+1
+            C[nx,ny] = -D(Nd,T,k)
+    return np.linalg.det(C)
+
+
+
 ################################################
 #                X PROJECTORS
 ################################################
@@ -250,6 +275,91 @@ def P_n_correlations(n,l,U,k, even = True):
                 dat.append(np.sqrt(sigma_general(indices,U,k))*degen)
         else:
             dat.append(sigma_general(indices,U,k)*degen)
+    dat.append(1)
+    #All terms have equal weight. 
+
+    return np.sum(dat)/2**(2*n)#,terms
+
+
+###############################
+# Z PROJECTORS 
+###############################
+def PZ_n(n,U,k, even = True):
+    """
+    P_n scales directly with the number of terms since even small odd sigma correlations need larger support to calcualte.
+    Taking out odd terms works to make easier, but scaling is still 2^n.
+    Minor improvements can still be had though.
+    """
+    #For most cases we use periodic boundary conditions
+    #That said, watch out for this definition of indices
+    indices = [i for i in range(0,n)]
+    terms = all_combinations(indices)
+
+    ###
+    x_c = []
+    for a in terms[1:]:
+      
+        a = np.array(a)
+        x_c.append(tuple(a - a[0]))  # convert to tuple for hashing
+    counter = Counter(x_c)
+
+    # Extract vecs and counts as separate arrays/lists
+    vecs = list(counter.keys())
+    counts = np.array(list(counter.values()))
+
+    ##
+    dat = []
+
+    for term in range(len(vecs)):
+        indices = vecs[term]
+        degen = counts[term]
+
+        if len(indices)%2 == 1:
+            if even ==True:
+                dat.append(0)
+            else:
+                constant = len(k)//2
+                indices = list(indices) + [x + constant for x in indices]
+                dat.append(np.sqrt(np.abs(sigma_general_z(indices,U,k)))*degen)
+        else:
+            dat.append(sigma_general_z(indices,U,k)*degen)
+    dat.append(1)
+    #All terms have equal weight. 
+    return np.sum(dat)/2**n
+
+def PZ_n_correlations(n,l,U,k, even = True):
+    #Term 1 
+    indices = [i for i in range(0,n)]
+    #Term 2 
+    indices +=[i for i in range(n+l-1,2*n+l-1)]
+    terms = all_combinations(indices)
+   # print(terms)
+     ###
+    x_c = []
+    for a in terms[1:]:
+      
+        a = np.array(a)
+        x_c.append(tuple(a - a[0]))  # convert to tuple for hashing
+    counter = Counter(x_c)
+
+    # Extract vecs and counts as separate arrays/lists
+    vecs = list(counter.keys())
+    counts = np.array(list(counter.values()))
+    #
+    dat = []
+    for term in range(len(vecs)):
+        indices = vecs[term]
+        degen = counts[term]
+
+        if len(indices)%2 == 1:
+            if even ==True:
+                dat.append(0)
+            else:
+                constant = len(k)//2
+                indices = list(indices) + [x + constant for x in indices]
+                dat.append(np.sqrt(sigma_general_z(indices,U,k))*degen)
+        else:
+            dat.append(sigma_general_z(indices,U,k)*degen)
     dat.append(1)
     #All terms have equal weight. 
 

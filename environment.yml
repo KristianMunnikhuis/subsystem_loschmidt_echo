@@ -1,0 +1,9 @@
+name: TFIM
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - jupyter
+  - pybind11
+  - multiprocess
+  - tqdm
