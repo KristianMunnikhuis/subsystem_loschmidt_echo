@@ -284,7 +284,7 @@ def P_n_correlations(n,l,U,k, even = True):
 ###############################
 # Z PROJECTORS 
 ###############################
-def PZ_n(n,U,k, even = True):
+def PZ_n(n,U,k):
     """
     P_n scales directly with the number of terms since even small odd sigma correlations need larger support to calcualte.
     Taking out odd terms works to make easier, but scaling is still 2^n.
@@ -314,20 +314,12 @@ def PZ_n(n,U,k, even = True):
         indices = vecs[term]
         degen = counts[term]
 
-        if len(indices)%2 == 1:
-            if even ==True:
-                dat.append(0)
-            else:
-                constant = len(k)//2
-                indices = list(indices) + [x + constant for x in indices]
-                dat.append(np.sqrt(np.abs(sigma_general_z(indices,U,k)))*degen)
-        else:
-            dat.append(sigma_general_z(indices,U,k)*degen)
+        dat.append(sigma_general_z(indices,U,k)*degen)
     dat.append(1)
     #All terms have equal weight. 
     return np.sum(dat)/2**n
 
-def PZ_n_correlations(n,l,U,k, even = True):
+def PZ_n_correlations(n,l,U,k):
     #Term 1 
     indices = [i for i in range(0,n)]
     #Term 2 
@@ -350,16 +342,7 @@ def PZ_n_correlations(n,l,U,k, even = True):
     for term in range(len(vecs)):
         indices = vecs[term]
         degen = counts[term]
-
-        if len(indices)%2 == 1:
-            if even ==True:
-                dat.append(0)
-            else:
-                constant = len(k)//2
-                indices = list(indices) + [x + constant for x in indices]
-                dat.append(np.sqrt(sigma_general_z(indices,U,k))*degen)
-        else:
-            dat.append(sigma_general_z(indices,U,k)*degen)
+        dat.append(sigma_general_z(indices,U,k)*degen)
     dat.append(1)
     #All terms have equal weight. 
 
