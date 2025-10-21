@@ -135,14 +135,22 @@ def k_vals(L):
     return x[x>0]
 
 
-def state(L,tau,t):
-    """Generates state as [us, vs, k]"""
-    #Generate momentum values
-    k = k_vals(L)
-    us = np.array([u_tilde(tau,q,t) for q in k])
-    vs = np.array([v_tilde(tau,q,t) for q in k])
-    return [us,vs,k]
+# def state(L,tau,t):
+#     """Generates state as [us, vs, k]"""
+#     #Generate momentum values
+#     k = k_vals(L)
+#     us = np.array([u_tilde(tau,q,t) for q in k])
+#     vs = np.array([v_tilde(tau,q,t) for q in k])
+#     return [us,vs,k]
 
+
+def state(L, tau, t):
+    k = k_vals(L)
+    # directly convert mp.mpc to np.complex128 during comprehension
+    us = np.array([complex(u_tilde(tau, q, t)) for q in k], dtype=np.complex128)
+    vs = np.array([complex(v_tilde(tau, q, t)) for q in k], dtype=np.complex128)
+    k  = np.array(k, dtype=np.float64)
+    return [us, vs, k]
 
 def ground_state(L,tau,t):
     #Is supposed to generate ground state
