@@ -5,3 +5,4 @@ from matplotlib.pyplot import plot, scatter, xlabel,ylabel,savefig, xlim, ylim, 
 import scipy
 import os 
 from tqdm import tqdm
+from numpy.fft import fft, fftshift,fftfreq
