@@ -51,7 +51,7 @@ def sigma_general(indices):
 
     A_coords = [x for x in R if x not in odd_sites]
     B_coords = [x for x in R if x not in even_sites]
-    C = np.zeros((N,N))
+    C = np.zeros((N,N),dtype=complex)
     for nx in range(N):
         for ny in range(N):
             Bx = B_coords[nx]
