@@ -137,7 +137,7 @@ def sigma_general(indices,T,k):
 
     A_coords = [x for x in R if x not in odd_sites]
     B_coords = [x for x in R if x not in even_sites]
-    C = np.zeros((N,N))
+    C = np.zeros((N,N),dtype=complex)
     for nx in range(N):
         for ny in range(N):
             Bx = B_coords[nx]
@@ -158,10 +158,10 @@ def sigma_general_z(indices,T,k):
     indices = remove_duplicates_in_pairs(indices)
 
     #Get string lengths
-    A_coords = np.array(indices)
-    B_coords = np.array(indices)
+    A_coords = np.array(indices,dtype=complex)
+    B_coords = np.array(indices,dtype=complex)
     N = len(indices)
-    C = np.zeros((N,N))
+    C = np.zeros((N,N),dtype=complex)
     for nx in range(N):
         for ny in range(N):
             Bx = B_coords[nx]
