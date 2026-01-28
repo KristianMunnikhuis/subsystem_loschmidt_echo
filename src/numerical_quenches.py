@@ -1,13 +1,4 @@
-import sys
 from common_imports import *
-from scipy.integrate import solve_ivp
-from numpy import conj
-from numpy import linalg as la
-import kibble_zurek as kz
-from time import time
-from joblib import Parallel, delayed
-import numpy as np
-import time_evolved_z_correlators as zz
 #Load Pauli Matrices
 s3,s1,s2 = array([[1,0],[0,-1]],dtype=complex),array([[0, 1],[1,0]],dtype=complex), array([[0,-1j],[1j,0]],dtype=complex)
 
@@ -24,7 +15,7 @@ def g_linear_hold(t,args):
     if t<tf:
         return 1-t/tau
     else:
-        return 1-tf/tau+(t-tf)/tau
+        return 1-tf/tau
 def g_pulse(t,args):
     """
     args= t0,tf,g_off,g_on
@@ -78,6 +69,13 @@ def groundstate(g,L):
 
 
 def evolve_mode(q,g,t_eval,u0,v0,args):
+    """Evolves specific mode in time. 
+    q = momentum
+    g = function
+    t_eval = times
+    u0, v0 = intiial state
+    args = arugments.
+    """
     V0 = array([u0,v0])
     sol = solve_ivp(
         BdG_evolve,
@@ -92,7 +90,7 @@ def evolve_mode(q,g,t_eval,u0,v0,args):
     )
     return sol.y[0], sol.y[1]
 
-def numerical_states(L,t_eval,g,args,state_0 =None):
+def states(L,t_eval,g,args,state_0 =None):
     """Computes a states list which is compatable with code for analytic quenches.
     
     L = System Size
