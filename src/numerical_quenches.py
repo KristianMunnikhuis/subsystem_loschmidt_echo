@@ -1,4 +1,4 @@
-from common_imports import *
+from project_imports import *
 #Load Pauli Matrices
 s3,s1,s2 = array([[1,0],[0,-1]],dtype=complex),array([[0, 1],[1,0]],dtype=complex), array([[0,-1j],[1j,0]],dtype=complex)
 
@@ -103,7 +103,8 @@ def states(L,t_eval,g,args,state_0 =None):
     """
 
     g0 = g(t_eval[0],args)
-    print(g0)
+    #gf = g(t_eval[0],args)
+    print(f"g0={g0}")
     if state_0 ==None:
         u,v,k = groundstate(g0,L)
     else:

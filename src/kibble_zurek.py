@@ -5,17 +5,15 @@ At t= 0, it is at the critical point (g=1)
 
 At t = tau, it is in the full ordered x phase (g = 0)
 
+This DOES NOT do free evolution. The analytical equations are derived under some specific initial conditions!
+
 """
 
 ################################################
 #                   IMPORTS
 ################################################
-import numpy as np
-from numpy import cos, sin, exp, pi, sqrt, abs
+from project_imports import * 
 from mpmath import pcfd
-import kblock_ising_model as kb
-from itertools import combinations
-from collections import Counter
 import mpmath as mp
 
 mp.mp.dps = 100
@@ -26,44 +24,7 @@ mp.mp.maxterms = 100000# number of hypergeometric terms before giving up
 ###These Functions are given by 7.2.87-88 of "Quantum Ising Phases and Transitions"
 ###They represent the bogoliouv Transformation starting from t0 = - inf to a time tf with a speed related to tau. g goes from infinity to -infinity.
 
-# def u_tilde(tau,q,tf):
-#     """tau = quench time
-#     tf  =final time
-#     q   =momentum value
-#     eq. 7.2.87"""
-#     a = 1+cos(q)
-#     b = sin(q)
 
-#     rot = exp(-1j*3*pi/4)
-#     rot_inv = exp(1j*3*pi/4)
-#     decay = exp(-pi*b*b*tau/4)
-#     prefactor = rot*b*sqrt(tau)*decay
-#     argument = rot_inv*2*(tf-a*tau)/sqrt(tau)
-#     nu = 1j*b*b*tau-1
-#     #Can be unstable at large tau
-#     return prefactor*complex(pcfd(nu,argument))
-
-# def v_tilde(tau,q,t):
-#     """tau = quench time
-#     tf  =final time
-#     q   =momentum value
-#     eq. 7.2.88"""
-#     a = 1+cos(q)
-#     b = sin(q)
-#     rot = exp(-1j*3*pi/4)
-#     rot_inv = exp(1j*3*pi/4)
-#     decay = exp(-pi*b*b*tau/4)
-#     prefactor = -decay
-#     argument = rot_inv*2*(t-a*tau)/sqrt(tau)
-#     nu = 1j*b*b*tau
-#     #Can be unstable at large tau
-#     return prefactor*complex(pcfd(nu,argument))
-
-
-###Slightly Experimental Changes
-
-import mpmath as mp
-from mpmath import pcfd
 
 def u_tilde(tau, q, tf):
     """Eq. 7.2.87"""
@@ -96,34 +57,31 @@ def v_tilde(tau, q, t):
         return prefactor * mp.pcfd(nu, argument)
 
 
-
-
-
 def g(t,tau):
     return -t/tau + 1
 
 
 
-################################################
-#            GROUND STATE SOLUTIONS (INCORRECT)
-################################################
+# ################################################
+# #            GROUND STATE SOLUTIONS (INCORRECT)
+# ################################################
 
-def u_diag(q,g):
-    a = g+cos(q)
-    omega= sqrt(g*g+2*g*cos(q)+1)
+# def u_diag(q,g):
+#     a = g+cos(q)
+#     omega= sqrt(g*g+2*g*cos(q)+1)
 
-    denom = sqrt(2*omega*(omega-a))
+#     denom = sqrt(2*omega*(omega-a))
 
-    return (a - omega)/denom
+#     return (a - omega)/denom
 
-def v_diag(q,g):
-    a = g+cos(q)
-    b = sin(q)
-    omega= sqrt(g*g+2*g*cos(q)+1)
+# def v_diag(q,g):
+#     a = g+cos(q)
+#     b = sin(q)
+#     omega= sqrt(g*g+2*g*cos(q)+1)
 
-    denom = sqrt(2*omega*(omega-a))
+#     denom = sqrt(2*omega*(omega-a))
 
-    return b/denom
+#     return b/denom
 
 
 ################################################
@@ -145,8 +103,8 @@ def k_vals(L):
 
 
 def state(L, tau, t):
+    """Generates state as [us, vs, k]"""
     k = k_vals(L)
-    # directly convert mp.mpc to np.complex128 during comprehension
     us = np.array([complex(u_tilde(tau, q, t)) for q in k], dtype=np.complex128)
     vs = np.array([complex(v_tilde(tau, q, t)) for q in k], dtype=np.complex128)
     k  = np.array(k, dtype=np.float64)
