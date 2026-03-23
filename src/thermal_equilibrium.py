@@ -1,6 +1,6 @@
 import sys
 sys.path.append("../../src")
-from common_imports import *
+from project_imports import *
 from collections import Counter
 import kibble_zurek as kb
 #####

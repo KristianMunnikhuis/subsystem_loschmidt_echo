@@ -161,13 +161,13 @@ def Majorana_Correlation(a,b,state):
 
     if S1=="A" and S2=="A":
         #This minus sign proves to be right though it bothers me... check <sigma_0 sigma_j> in a quench to hf=0 to verify.
-        return -GA(j-i,state)
+        return -GA(j-i,state) 
     elif S1=="A" and S2=="B":
         return -G(i-j,state)
     elif S1=="B" and S2=="A":
         return G(j-i,state)
     else:
-        return GB(j-i,state)
+        return GB(j-i,state) 
 
 def Majorana_Covariance(Majorana_String,state):
     """
@@ -189,23 +189,54 @@ def Majorana_Covariance(Majorana_String,state):
 #           X Operators
 ################################################
 
-def sx_correlation(indices,state):
+# def sx_correlation(indices,state):
+#     """
+#     Computes the correlation of a string of sigma_x operators at sites labeled by indices. 
+#     This code commutes them into an ordered form (sigma_i<sigma_j<..)
+#     Then evaluates the expectation through the use of Majorana Fermions
+#     """
+#     #Remove Duplicates, sort (allowed via commutation algebra and sigma^2=1)
+#     indices = list(set(indices))
+#     #If there is an odd number of sites, return 0.
+#     if len(indices)%2==1:
+#         return 0
+#     #Seperate indices into pairs
+#     pairs = [indices[i:i+2] for i in range(0, len(indices), 2)]
+#     #Create full Majorna String
+#     Majorana_String = Create_Majorana_Strings_X(pairs)
+#     #Create full Covariance Matrix
+#     Majorana_cov = Majorana_Covariance(Majorana_String,state)
+#     #Evaluate expectation with Pfaffian
+#     return Pfaffian(Majorana_cov)
+
+
+def sx_correlation(indices, state):
     """
     Computes the correlation of a string of sigma_x operators at sites labeled by indices. 
     This code commutes them into an ordered form (sigma_i<sigma_j<..)
     Then evaluates the expectation through the use of Majorana Fermions
     """
-    #Remove Duplicates, sort (allowed via commutation algebra and sigma^2=1)
-    indices = list(set(indices))
+    #Remove duplicates by annihilating pairs (sigma^2=1), then sort
+    counts = Counter(indices)
+    indices = sorted([i for i, c in counts.items() if (c % 2) == 1])
+
     #If there is an odd number of sites, return 0.
-    if len(indices)%2==1:
+    if len(indices) % 2 == 1:
         return 0
+
+    #Trivial identity (empty string)
+    if len(indices) == 0:
+        return 1
+
     #Seperate indices into pairs
     pairs = [indices[i:i+2] for i in range(0, len(indices), 2)]
+
     #Create full Majorna String
     Majorana_String = Create_Majorana_Strings_X(pairs)
+
     #Create full Covariance Matrix
-    Majorana_cov = Majorana_Covariance(Majorana_String,state)
+    Majorana_cov = Majorana_Covariance(Majorana_String, state)
+
     #Evaluate expectation with Pfaffian
     return Pfaffian(Majorana_cov)
 
@@ -289,21 +320,45 @@ def Px_n_correlations(n,l,state, even = True):
 ################################################
 #           Z Operators
 ################################################
+# def sz_correlation(indices,state):
+#     """
+#     Computes the correlation of a string of sigma_x operators at sites labeled by indices. 
+#     This code commutes them into an ordered form (sigma_i<sigma_j<..)
+#     Then evaluates the expectation through the use of Majorana Fermions
+#     """
+#     #Remove Duplicates, sort (allowed via commutation algebra and sigma^2=1)
+#     indices = list(set(indices))
+#     #Create full Majorna String
+#     Majorana_String = Create_Majorana_Strings_Z(indices)
+#     #Create full Covariance Matrix
+#     Majorana_cov = Majorana_Covariance(Majorana_String,state)
+#     #Evaluate expectation with Pfaffian
+#     return Pfaffian(Majorana_cov)
+
+
 def sz_correlation(indices,state):
     """
-    Computes the correlation of a string of sigma_x operators at sites labeled by indices. 
+    Computes the correlation of a string of sigma_z operators at sites labeled by indices. 
     This code commutes them into an ordered form (sigma_i<sigma_j<..)
     Then evaluates the expectation through the use of Majorana Fermions
     """
-    #Remove Duplicates, sort (allowed via commutation algebra and sigma^2=1)
-    indices = list(set(indices))
+    #Remove duplicates via sigma^2 = 1 and sort
+    counts = Counter(indices)
+    indices = sorted([i for i,c in counts.items() if c % 2 == 1])
+
+    #Identity operator
+    if len(indices) == 0:
+        return 1
+
     #Create full Majorna String
     Majorana_String = Create_Majorana_Strings_Z(indices)
+
     #Create full Covariance Matrix
     Majorana_cov = Majorana_Covariance(Majorana_String,state)
+
     #Evaluate expectation with Pfaffian
     return Pfaffian(Majorana_cov)
-    
+
 def Pz_n(n,state):
     """
     P_n scales directly with the number of terms since even small odd sigma correlations need larger support to calcualte.
@@ -370,3 +425,70 @@ def Pz_n_correlations(n,l,state):
     #All terms have equal weight. 
 
     return np.sum(dat)/2**(2*n)#,terms
+
+
+def ci_cj_majorana(i, j):
+    """
+    Returns decomposition of c_i c_j in Majorana basis.
+
+    Output:
+        strings: list of Majorana strings (each is list of tuples)
+        coeffs: corresponding prefactors
+    """
+
+    strings = [
+        [("A", i), ("A", j)],
+        [("A", i), ("B", j)],
+        [("B", i), ("A", j)],
+        [("B", i), ("B", j)]
+    ]
+
+    coeffs = [
+        1/4,
+        -1/4,
+        -1/4,
+        1/4
+    ]
+
+    return strings, coeffs
+
+
+def cid_cj_majorana(i, j):
+    """
+    Returns decomposition of c_i^dagger c_j in Majorana basis.
+    """
+
+    strings = [
+        [("A", i), ("A", j)],
+        [("A", i), ("B", j)],
+        [("B", i), ("A", j)],
+        [("B", i), ("B", j)]
+    ]
+
+    coeffs = [
+        1/4,
+        -1/4,
+        1/4,
+        -1/4
+    ]
+
+    return strings, coeffs
+
+
+def eval_majorana_expansion(strings, coeffs, state):
+    total = 0.0 + 0j
+
+    for s, c in zip(strings, coeffs):
+        M = Majorana_Covariance(s, state)
+        total += c * Pfaffian(M)
+
+    return total
+
+def ci_cj(i, j, state):
+    strings, coeffs = ci_cj_majorana(i, j)
+    return eval_majorana_expansion(strings, coeffs, state)
+
+
+def cid_cj(i, j, state):
+    strings, coeffs = cid_cj_majorana(i, j)
+    return eval_majorana_expansion(strings, coeffs, state)

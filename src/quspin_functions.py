@@ -1,7 +1,7 @@
 import quspin
 from quspin.operators import hamiltonian,quantum_operator
 from quspin.basis import spin_basis_1d
-from common_imports import *
+from project_imports import *
 from itertools import combinations
 from functools import partial
 def projector_string(ns,s,b): #ns = length of string s = operator
